@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            display: flex;
+            padding: 20px;
+        }
+        .sidebar{
+            width: 250px;
+            padding: 20px;
+            background-color: #e9ecef;
+            height: 100vh;
+        }
+        .main-content{
+            padding: 20px;
+        }   
+        body{
+            margin: 0;
+            font-family: Arial;
+            background-color: #f5f5f5;
+        }
+        .issue-card{
+            padding: 20px;
+            background-color: white;
+            border: 1px solid gray;
+            border-radius: 10px;
+            width: 400px;
+            box-shadow: 0px 2px 5px gray;
+            margin-bottom: 20px;
+        }
+        button{
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .top-bar{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 450px;
+            margin-bottom: 20px;
+        }
+
+        #sortSelect{
+            padding: 10px 35px 10px 15px;
+            border-radius: 10px;
+            border: 1px solid lightgray;
+            background-color: white;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+
+            background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+
+            background-repeat: no-repeat;
+
+            background-position: right 10px center;
+
+            background-size: 20px;
+        }
+
+        #sortSelect:hover{
+            border-color: blue;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class ="sidebar">
+            <h2>Dashboard</h2>
+            <p>Report Issue</p>
+            <p>Profile</p>
+            <p id="logoutBtn">Logout</p>
+        </div>
+        <div class="main-content">
+
+        <div class="top-bar">
+
+            <h1>Active Issues</h1>
+
+            <select id="sortSelect">
+
+                <option value="newest">
+                    Newest
+                </option>
+
+                <option value="oldest">
+                    Oldest
+                </option>
+
+                <option value="trending">
+                    Trending
+                </option>
+
+            </select>
+        </div>
+
+        <div id="issues-container">
+                
+            </div>
+        
+    </div>
+
+    <script>
+        const token = localStorage.getItem("token")
+
+        if(!token){
+            window.location.href = "login.html"
+        }
+        const issuesContainer =
+        document.getElementById("issues-container")
+
+        const sortSelect =
+        document.getElementById("sortSelect")
+
+        async function getIssues(){
+            const response = await fetch(
+                `http://127.0.0.1:8000/issues?sort=${sortSelect.value}`
+            )
+            const data = await response.json()
+            issuesContainer.innerHTML = ""
+
+            for(let issue of data){
+                issuesContainer.innerHTML += `
+                    <div class="issue-card">
+
+                        <h3>${issue.title}</h3>
+
+                        <p>${issue.description}</p>
+
+                        <p>Category: ${issue.category}</p>
+
+                        <p>Location: ${issue.location}</p>
+
+                        <button onclick="openIssueDetail(${issue.id})">
+                            View Details
+                        </button>
+
+    </div>
+`
+            }
+        }
+        function openIssueDetail(issueId){
+            window.location.href =
+            `issue-detail.html?id=${issueId}`
+        }
+        getIssues()
+
+        sortSelect.addEventListener(
+            "change",
+
+            function(){
+
+                getIssues()
+            }
+        )
+
+
+        const logoutBtn =
+        document.getElementById("logoutBtn")
+            logoutBtn.addEventListener(
+                "click",
+                function(){
+
+                    localStorage.removeItem("token")
+
+                    window.location.href = "login.html"
+                }
+        )
+    </script>
+</body>
+</html>

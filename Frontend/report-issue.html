@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Report Issue</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background-color: #f5f5f5;
+        }
+
+        .container{
+            padding: 40px;
+        }
+
+        .form-box{
+            width: 500px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px gray;
+        }
+
+        input, textarea{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        button{
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        input, textarea{
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+        *{
+            box-sizing: border-box;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="form-box">
+
+            <h1>Report Issue</h1>
+
+            <input id="title" placeholder="Enter title">
+
+            <textarea
+                id="description"
+                placeholder="Enter description"
+            ></textarea>
+
+            <input id="category" placeholder="Enter category">
+
+            <input id="location" placeholder="Enter location">
+
+            <button id="submitBtn">
+                Submit
+            </button>
+
+        </div>
+
+    </div>
+    <script>
+
+        const token = localStorage.getItem("token")
+
+        if(!token){
+            window.location.href = "login.html"
+        }
+
+        submitBtn.addEventListener(
+            "click",
+
+            async function(){
+
+                const title =
+                document.getElementById("title").value
+
+                const description =
+                document.getElementById("description").value
+
+                const category =
+                document.getElementById("category").value
+
+                const location =
+                document.getElementById("location").value
+                
+                const token = localStorage.getItem("token")
+                console.log(token)
+
+                submitBtn.innerText = "Submitting..."
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/issues",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`
+                        },
+
+                        body: JSON.stringify({
+                            title: title,
+                            description: description,
+                            category: category,
+                            location: location
+                        })
+                    }
+                )
+                const data = await response.json()
+                submitBtn.innerText = "Submit"
+
+                document.getElementById("title").value = ""
+                document.getElementById("description").value = ""
+                document.getElementById("category").value = ""
+                document.getElementById("location").value = ""
+
+                window.location.href = "dashboard.html"
+                console.log(data)
+                
+            }
+        )
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Issue Detail</title>
+
+    <style>
+
+        .container{
+            padding: 40px;
+        }
+
+        .issue-detail{
+            width: 600px;
+            padding: 20px;
+            border: 1px solid gray;
+            border-radius: 10px;
+            box-shadow: 0px 2px 5px gray;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <div class="issue-detail">
+
+            <h1 id="title"></h1>
+
+            <p id="description"></p>
+
+            <p id="category"></p>
+
+            <p id="location"></p>
+
+            <p id="status"></p>
+
+            <p id="upvotes"></p>
+
+            <button id="upvoteBtn">
+                Upvote
+            </button>
+
+            <h3>Comments</h3>
+
+            <input
+                id="commentInput"
+                placeholder="Write comment"
+            />
+
+            <button id="commentBtn">
+                Add Comment
+            </button>
+
+            <div id="commentsContainer">
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>    
+        const params =
+        new URLSearchParams(window.location.search)
+        const issueId = params.get("id")
+
+        console.log(issueId)
+        async function getIssueDetail(){
+            const response = await fetch(
+                `http://127.0.0.1:8000/issues/${issueId}`
+            )
+            const data = await response.json()
+
+            console.log(data)
+            title.innerText = data.title
+
+            description.innerText = data.description
+
+            category.innerText = data.category
+
+            issueLocation.innerText = data.location
+
+            status.innerText = "Status: " + data.status
+
+            upvotes.innerText = "Upvotes: " + data.upvotes
+
+        }
+        const title =
+        document.getElementById("title")
+
+        const description =
+        document.getElementById("description")
+
+        const category =
+        document.getElementById("category")
+
+        const issueLocation =
+        document.getElementById("location")
+
+        const status =
+        document.getElementById("status")
+
+        const upvotes =
+        document.getElementById("upvotes")
+
+        const upvoteBtn =
+        document.getElementById("upvoteBtn")
+
+        upvoteBtn.addEventListener(
+            "click",
+
+            async function(){
+
+                const token =
+                localStorage.getItem("token")
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/vote",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+
+                        body: JSON.stringify({
+                            issue_id: Number(issueId)
+                        })
+                    }
+                )
+
+                const data = await response.json()
+
+                console.log(data)
+
+                getIssueDetail()
+            }
+        )
+
+        const commentInput =
+        document.getElementById("commentInput")
+
+        const commentBtn =
+        document.getElementById("commentBtn")
+
+        const commentsContainer =
+        document.getElementById("commentsContainer")
+
+        commentBtn.addEventListener(
+            "click",
+
+            async function(){
+
+                const token =
+                localStorage.getItem("token")
+
+                const response = await fetch(
+                    "http://127.0.0.1:8000/comments",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        },
+
+                        body: JSON.stringify({
+                            issue_id: Number(issueId),
+                            comment: commentInput.value
+                        })
+                    }
+                )
+
+                const data = await response.json()
+
+                console.log(data)
+
+                commentInput.value = ""
+
+                getComments()
+            }
+        )
+
+        getIssueDetail()
+        getComments()
+
+        async function getComments(){
+
+            const response = await fetch(
+                `http://127.0.0.1:8000/comments/${issueId}`
+            )
+
+            const data = await response.json()
+
+            commentsContainer.innerHTML = ""
+
+            for(let comment of data){
+
+                commentsContainer.innerHTML += `
+
+                    <div
+                        style="
+                            padding:10px;
+                            border:1px solid lightgray;
+                            margin-top:10px;
+                            border-radius:8px;
+                        "
+                    >
+
+                        <h4>${comment.name}</h4>
+
+                        <p>${comment.comment}</p>
+
+                    </div>
+
+                `
+            }
+        }
+    </script>
+</body>
+</html>
+
