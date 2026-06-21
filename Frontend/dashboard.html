@@ -80,8 +80,9 @@
             background-size: 20px;
             transition: border-color 0.2s;
         }
+
         #categorySelect,
-        #sortSelect{
+        #sortSelect {
             position: absolute;
             opacity: 0;
             pointer-events: none;
@@ -178,13 +179,16 @@
         .custom-dropdown-options::-webkit-scrollbar {
             width: 6px;
         }
+
         .custom-dropdown-options::-webkit-scrollbar-track {
             background: transparent;
         }
+
         .custom-dropdown-options::-webkit-scrollbar-thumb {
             background: #cbd5e1;
             border-radius: 9999px;
         }
+
         .custom-dropdown-options::-webkit-scrollbar-thumb:hover {
             background: #94a3b8;
         }
@@ -442,9 +446,9 @@
             padding: 24px;
             box-shadow: 0 4px 18px rgba(0, 0, 0, 0.02);
             margin-bottom: 20px;
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                        border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -1634,17 +1638,17 @@
 
                     const trigger = document.createElement('div');
                     trigger.className = 'custom-dropdown-trigger';
-                    
+
                     const triggerText = document.createElement('span');
                     const selectedOption = select.options[select.selectedIndex];
                     triggerText.innerText = selectedOption ? selectedOption.textContent.trim() : '';
-                    
+
                     const arrow = document.createElement('div');
                     arrow.className = 'custom-dropdown-arrow';
                     arrow.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display: block;">
                         <polyline points="6 9 12 15 18 9"></polyline>
                     </svg>`;
-                    
+
                     trigger.appendChild(triggerText);
                     trigger.appendChild(arrow);
                     dropdownContainer.appendChild(trigger);
@@ -1665,7 +1669,7 @@
                             optionItem.classList.add('selected');
                             triggerText.innerText = opt.textContent.trim();
                             dropdownContainer.classList.remove('open');
-                            
+
                             select.value = opt.value;
                             select.dispatchEvent(new Event('change'));
                         });
@@ -1888,13 +1892,13 @@
             // Mobile Avatar Dropdown Toggle
             const avatarBtn = document.getElementById("mobileAvatarBtn")
             const avatarDropdown = document.getElementById("mobileAvatarDropdown")
-            
+
             if (avatarBtn && avatarDropdown) {
                 avatarBtn.addEventListener("click", function (e) {
                     e.stopPropagation()
                     avatarDropdown.classList.toggle("show")
                 })
-                
+
                 document.addEventListener("click", function (e) {
                     if (!avatarBtn.contains(e.target) && !avatarDropdown.contains(e.target)) {
                         avatarDropdown.classList.remove("show")
@@ -1930,7 +1934,7 @@
                             }
                         }
                     }
-                } catch(e) { console.log(e) }
+                } catch (e) { console.log(e) }
             }
             loadUserAvatar()
 
