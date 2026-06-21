@@ -1,232 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusCoord Admin — Reported Content</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:#f5f5f5;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusCoord Admin — Reported Content</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.container{display:flex;}
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
 
-.sidebar{
-  position:fixed;left:0;top:0;width:260px;height:100vh;
-  padding:20px;background:#e9ecef;display:flex;flex-direction:column;
-}
-.logo{color:#0d6efd;margin-bottom:6px;font-size:20px;}
-.admin-tag{
-  font-size:11px;font-weight:700;letter-spacing:1px;color:#92400e;
-  background:#fef3c7;padding:3px 10px;border-radius:20px;
-  display:inline-block;margin-bottom:28px;
-}
-.menu-item{
-  padding:11px 14px;margin-bottom:8px;border-radius:8px;cursor:pointer;
-  font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;
-  transition:background 0.15s,transform 0.15s;
-  text-decoration:none;color:inherit;
-}
-.menu-item:hover{background:#dbeafe;transform:translateX(3px);}
-.menu-item.active{background:#dbeafe;color:#0d6efd;font-weight:700;}
-.menu-icon{font-size:16px;}
-.logout-section{margin-top:auto;border-top:1px solid #d1d5db;padding-top:16px;}
-.logout{background:#fee2e2;color:#dc2626;border:1px solid #fecaca;text-align:center;font-weight:600;}
-.logout:hover{background:#fecaca;}
-.reports-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:24px;
-    width:100%;
-}
-.main-content{
-    margin-left:280px;
-    width:calc(100vw - 280px);
-    min-height:100vh;
-    padding:36px;
-}
-.page-title{font-size:28px;font-weight:700;margin-bottom:6px;}
-.subtitle{color:#6b7280;margin-bottom:28px;font-size:15px;}
+    .container {
+      display: flex;
+    }
 
-.table-card{
-    background:white;
-    border-radius:12px;
-    box-shadow:0 2px 10px rgba(0,0,0,0.07);
-    overflow:hidden;
-    margin-bottom:24px;
-    width:100%;
-}
-.table-header{
-  padding:18px 22px;border-bottom:1px solid #e5e7eb;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.table-header h3{font-size:17px;font-weight:700;}
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 100vh;
+      padding: 20px;
+      background: #e9ecef;
+      display: flex;
+      flex-direction: column;
+    }
 
-.btn{padding:7px 14px;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:opacity 0.15s;}
-.btn:hover{opacity:0.8;}
-.btn-danger{background:#fee2e2;color:#dc2626;}
-.btn-primary{background:#dbeafe;color:#1d4ed8;}
-.btn-sm{padding:5px 10px;font-size:12px;}
+    .logo {
+      color: #0d6efd;
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
 
-.report-item{padding:18px 22px;border-bottom:1px solid #f3f4f6;}
-.report-item:last-child{border-bottom:none;}
-.report-meta{color:#6b7280;font-size:13px;margin:4px 0 10px;}
-.report-reason{
-  background:#fef3c7;color:#92400e;padding:6px 12px;
-  border-radius:6px;font-size:13px;display:inline-block;margin-bottom:10px;
-}
-.report-actions{display:flex;gap:10px;}
+    .admin-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 28px;
+    }
 
-.empty-state{text-align:center;padding:48px 20px;color:#9ca3af;font-size:15px;}
-.empty-icon{font-size:40px;margin-bottom:12px;}
-.loading{text-align:center;padding:30px;color:#6b7280;}
+    .menu-item {
+      padding: 11px 14px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s, transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
 
-.modal-bg{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
-  z-index:1000;justify-content:center;align-items:center;
-}
-.report-actions{
-display:flex;
-gap:10px;
-} 
-.comment-preview{
-    margin:12px 0;
-    padding:14px;
-    background:#f8fafc;
-    border-left:4px solid #3b82f6;
-    border-radius:8px;
-    color:#374151;
-    font-size:14px;
-    line-height:1.7;
-    font-style:italic;
-}
-.modal-bg.open{display:flex;}
-.modal{background:white;border-radius:14px;padding:32px;width:440px;box-shadow:0 8px 40px rgba(0,0,0,0.18);}
-.modal h3{font-size:19px;font-weight:700;margin-bottom:10px;}
-.modal p{color:#6b7280;font-size:14px;margin-bottom:22px;}
-.modal-actions{display:flex;gap:12px;justify-content:flex-end;}
+    .menu-item:hover {
+      background: #dbeafe;
+      transform: translateX(3px);
+    }
 
-/* Toast */
-.toast{
-  position:fixed;bottom:28px;right:28px;z-index:2000;
-  background:#1e293b;color:white;padding:12px 20px;border-radius:10px;
-  font-size:14px;font-weight:500;opacity:0;pointer-events:none;
-  transition:opacity 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.2);
-}
-.toast.show{opacity:1;}
-.toast.success{border-left:4px solid #22c55e;}
-.toast.error{border-left:4px solid #ef4444;}
-</style>
+    .menu-item.active {
+      background: #dbeafe;
+      color: #0d6efd;
+      font-weight: 700;
+    }
+
+    .menu-icon {
+      font-size: 16px;
+    }
+
+    .logout-section {
+      margin-top: auto;
+      border-top: 1px solid #d1d5db;
+      padding-top: 16px;
+    }
+
+    .logout {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .logout:hover {
+      background: #fecaca;
+    }
+
+    .reports-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      width: 100%;
+    }
+
+    .main-content {
+      margin-left: 280px;
+      width: calc(100vw - 280px);
+      min-height: 100vh;
+      padding: 36px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    .table-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-header h3 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .btn {
+      padding: 7px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .btn-primary {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .report-item {
+      padding: 18px 22px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .report-item:last-child {
+      border-bottom: none;
+    }
+
+    .report-meta {
+      color: #6b7280;
+      font-size: 13px;
+      margin: 4px 0 10px;
+    }
+
+    .report-reason {
+      background: #fef3c7;
+      color: #92400e;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      display: inline-block;
+      margin-bottom: 10px;
+    }
+
+    .report-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: #9ca3af;
+      font-size: 15px;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .report-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .comment-preview {
+      margin: 12px 0;
+      padding: 14px;
+      background: #f8fafc;
+      border-left: 4px solid #3b82f6;
+      border-radius: 8px;
+      color: #374151;
+      font-size: 14px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 14px;
+      padding: 32px;
+      width: 440px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .modal p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 2000;
+      background: #1e293b;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid #22c55e;
+    }
+
+    .toast.error {
+      border-left: 4px solid #ef4444;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="adminApp">
-<div class="container">
-  <div class="sidebar">
-    <h2 class="logo">CampusCoord</h2>
-    <span class="admin-tag">⚙ ADMIN</span>
-    <a class="menu-item" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
-    <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
-    <a class="menu-item" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
-    <a class="menu-item" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
-    <a class="menu-item active" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
-    <div class="logout-section">
-      <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
-    </div>
-  </div>
-
-  <div class="main-content">
-
-    <!-- REPORTED -->
-    <div class="section active" id="section-reported">
-      <h1 class="page-title">Reported Content</h1>
-      <p class="subtitle">Review content flagged by users</p>
-      <div class="reports-grid">
-        <div class="table-card">
-            <div class="table-header"><h3>🚩 Reported Issues</h3></div>
-            <div id="reportedIssues"><div class="loading">Loading...</div></div>
+  <div id="adminApp">
+    <div class="container">
+      <div class="sidebar">
+        <h2 class="logo">CampusCoord</h2>
+        <span class="admin-tag">⚙ ADMIN</span>
+        <a class="menu-item" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
+        <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
+        <a class="menu-item" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
+        <a class="menu-item" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
+        <a class="menu-item active" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
+        <div class="logout-section">
+          <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
         </div>
-        <div class="table-card">
-            <div class="table-header"><h3>🚩 Reported Comments</h3></div>
-            <div id="reportedComments"><div class="loading">Loading...</div></div>
+      </div>
+
+      <div class="main-content">
+
+        <!-- REPORTED -->
+        <div class="section active" id="section-reported">
+          <h1 class="page-title">Reported Content</h1>
+          <p class="subtitle">Review content flagged by users</p>
+          <div class="reports-grid">
+            <div class="table-card">
+              <div class="table-header">
+                <h3>🚩 Reported Issues</h3>
+              </div>
+              <div id="reportedIssues">
+                <div class="loading">Loading...</div>
+              </div>
+            </div>
+            <div class="table-card">
+              <div class="table-header">
+                <h3>🚩 Reported Comments</h3>
+              </div>
+              <div id="reportedComments">
+                <div class="loading">Loading...</div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-    </div>
 
-  </div>
-</div>
-</div>
-
-<!-- CONFIRM MODAL -->
-<div class="modal-bg" id="confirmModal">
-  <div class="modal">
-    <h3 id="modalTitle">Confirm Action</h3>
-    <p id="modalMsg">Are you sure?</p>
-    <div class="modal-actions">
-      <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+  <!-- CONFIRM MODAL -->
+  <div class="modal-bg" id="confirmModal">
+    <div class="modal">
+      <h3 id="modalTitle">Confirm Action</h3>
+      <p id="modalMsg">Are you sure?</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+      </div>
+    </div>
+  </div>
 
-<script>
-const API = "http://127.0.0.1:8000";
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
-// ── AUTH GUARD ───────────────────────────────────────────────────────────────
-let adminToken = sessionStorage.getItem("adminToken");
-if (!adminToken) {
-  window.location.href = "admin-login.html";
-}
+  <script>
+    const API = "https://campuscoord.onrender.com";
 
-// ── TOAST ────────────────────────────────────────────────────────────────────
-function showToast(msg, type="success") {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.className = `toast show ${type}`;
-  setTimeout(() => { t.className = "toast"; }, 3000);
-}
-
-// ── LOGOUT ───────────────────────────────────────────────────────────────────
-document.getElementById("adminLogoutBtn").addEventListener("click", () => {
-  sessionStorage.removeItem("adminToken");
-  window.location.href = "admin-login.html";
-});
-
-// ── REPORTED CONTENT ─────────────────────────────────────────────────────────
-async function loadReported() {
-  document.getElementById("reportedIssues").innerHTML  = `<div class="loading">Loading...</div>`;
-  document.getElementById("reportedComments").innerHTML = `<div class="loading">Loading...</div>`;
-  try {
-    const [irRes, crRes] = await Promise.all([
-      fetch(`${API}/admin/issue-reports`,   { headers: authHeader() }),
-      fetch(`${API}/admin/comment-reports`, { headers: authHeader() })
-    ]);
-    const ir = irRes.ok ? await irRes.json() : null;
-    const cr = crRes.ok ? await crRes.json() : null;
-
-    if (ir === null) {
-      document.getElementById("reportedIssues").innerHTML = backendError();
-    } else {
-      renderIssueReports(ir);
+    // ── AUTH GUARD ───────────────────────────────────────────────────────────────
+    let adminToken = sessionStorage.getItem("adminToken");
+    if (!adminToken) {
+      window.location.href = "admin-login.html";
     }
-    if (cr === null) {
-      document.getElementById("reportedComments").innerHTML = backendError();
-    } else {
-      renderCommentReports(cr);
-    }
-  } catch(e) {
-    document.getElementById("reportedIssues").innerHTML  = backendError();
-    document.getElementById("reportedComments").innerHTML = backendError();
-  }
-}
 
-function renderIssueReports(reports) {
-  if (!reports.length) { document.getElementById("reportedIssues").innerHTML = emptyState("No reported issues 🎉"); return; }
-  let html = "";
-  for (const r of reports) {
-    html += `<div class="report-item" id="ireport-${r.id}">
+    // ── TOAST ────────────────────────────────────────────────────────────────────
+    function showToast(msg, type = "success") {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = `toast show ${type}`;
+      setTimeout(() => { t.className = "toast"; }, 3000);
+    }
+
+    // ── LOGOUT ───────────────────────────────────────────────────────────────────
+    document.getElementById("adminLogoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("adminToken");
+      window.location.href = "admin-login.html";
+    });
+
+    // ── REPORTED CONTENT ─────────────────────────────────────────────────────────
+    async function loadReported() {
+      document.getElementById("reportedIssues").innerHTML = `<div class="loading">Loading...</div>`;
+      document.getElementById("reportedComments").innerHTML = `<div class="loading">Loading...</div>`;
+      try {
+        const [irRes, crRes] = await Promise.all([
+          fetch(`${API}/admin/issue-reports`, { headers: authHeader() }),
+          fetch(`${API}/admin/comment-reports`, { headers: authHeader() })
+        ]);
+        const ir = irRes.ok ? await irRes.json() : null;
+        const cr = crRes.ok ? await crRes.json() : null;
+
+        if (ir === null) {
+          document.getElementById("reportedIssues").innerHTML = backendError();
+        } else {
+          renderIssueReports(ir);
+        }
+        if (cr === null) {
+          document.getElementById("reportedComments").innerHTML = backendError();
+        } else {
+          renderCommentReports(cr);
+        }
+      } catch (e) {
+        document.getElementById("reportedIssues").innerHTML = backendError();
+        document.getElementById("reportedComments").innerHTML = backendError();
+      }
+    }
+
+    function renderIssueReports(reports) {
+      if (!reports.length) { document.getElementById("reportedIssues").innerHTML = emptyState("No reported issues 🎉"); return; }
+      let html = "";
+      for (const r of reports) {
+        html += `<div class="report-item" id="ireport-${r.id}">
       <b>Issue #${r.issue_id}</b> — ${escHtml(r.issue_title || "(deleted)")}
       <div class="report-meta">
       Reported by ${escHtml(r.reporter_name || "Unknown")} · ${formatDate(r.created_at)}
@@ -248,16 +452,16 @@ function renderIssueReports(reports) {
         </button>
       </div>
     </div>`;
-  }
-  document.getElementById("reportedIssues").innerHTML = html;
-}
+      }
+      document.getElementById("reportedIssues").innerHTML = html;
+    }
 
-function renderCommentReports(reports) {
-    
-  if (!reports.length) { document.getElementById("reportedComments").innerHTML = emptyState("No reported comments 🎉"); return; }
-  let html = "";
-  for (const r of reports) {
-    html += `<div class="report-item" id="creport-${r.id}">
+    function renderCommentReports(reports) {
+
+      if (!reports.length) { document.getElementById("reportedComments").innerHTML = emptyState("No reported comments 🎉"); return; }
+      let html = "";
+      for (const r of reports) {
+        html += `<div class="report-item" id="creport-${r.id}">
       <b>Comment #${r.comment_id}</b>
       ${r.comment_text ? `
 <div class="comment-preview">
@@ -284,96 +488,97 @@ function renderCommentReports(reports) {
         </button>
       </div>
     </div>`;
-  }
-  document.getElementById("reportedComments").innerHTML = html;
-}
-
-// ── ACTIONS ──────────────────────────────────────────────────────────────────
-function confirmDelete(type, id, title, msg) {
-  document.getElementById("modalTitle").textContent = title;
-  document.getElementById("modalMsg").textContent   = msg;
-  document.getElementById("confirmModal").classList.add("open");
-  document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
-}
-
-function closeModal() {
-  document.getElementById("confirmModal").classList.remove("open");
-}
-
-// FIX: Remove row from DOM immediately after delete — no full reload needed
-async function executeDelete(type, id) {
-  closeModal();
-  const endpointMap = {
-    issue:   `/admin/delete-issue/${id}`,
-    comment: `/admin/delete-comment/${id}`,
-    user:    `/admin/delete-user/${id}`
-  };
-  const endpoint = endpointMap[type];
-  if (!endpoint) return;
-
-  try {
-    const res  = await fetch(`${API}${endpoint}`, { method:"DELETE", headers: authHeader() });
-    const data = await res.json();
-
-    if (res.ok) {
-      showToast(data.message || "Deleted successfully", "success");
-      // FIX: on the Reported Content page, reload to clean up related reports
-      loadReported();
-    } else {
-      showToast(data.detail || "Delete failed.", "error");
+      }
+      document.getElementById("reportedComments").innerHTML = html;
     }
-  } catch(e) {
-    showToast("Network error. Check backend.", "error");
-  }
-}
 
-async function dismissReport(type, reportId) {
-  try {
-    const res  = await fetch(`${API}/admin/dismiss-report/${type}/${reportId}`, { method:"DELETE", headers: authHeader() });
-    const data = await res.json();
-    if (res.ok) {
-      showToast("Report dismissed", "success");
-      // FIX: Remove the specific report item from DOM
-      const el = document.getElementById(type === "issue" ? `ireport-${reportId}` : `creport-${reportId}`);
-      if (el) el.remove();
-    } else {
-      showToast(data.detail || "Failed to dismiss.", "error");
+    // ── ACTIONS ──────────────────────────────────────────────────────────────────
+    function confirmDelete(type, id, title, msg) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalMsg").textContent = msg;
+      document.getElementById("confirmModal").classList.add("open");
+      document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
     }
-  } catch(e) {
-    showToast("Network error.", "error");
-  }
-}
 
-// ── HELPERS ──────────────────────────────────────────────────────────────────
-function authHeader() {
-  return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
-}
+    function closeModal() {
+      document.getElementById("confirmModal").classList.remove("open");
+    }
 
-function escHtml(str) {
-  return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
+    // FIX: Remove row from DOM immediately after delete — no full reload needed
+    async function executeDelete(type, id) {
+      closeModal();
+      const endpointMap = {
+        issue: `/admin/delete-issue/${id}`,
+        comment: `/admin/delete-comment/${id}`,
+        user: `/admin/delete-user/${id}`
+      };
+      const endpoint = endpointMap[type];
+      if (!endpoint) return;
 
-function formatDate(str) {
-  if (!str) return "—";
-  try { return new Date(str).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }); }
-  catch(e) { return str; }
-}
+      try {
+        const res = await fetch(`${API}${endpoint}`, { method: "DELETE", headers: authHeader() });
+        const data = await res.json();
 
-function emptyState(msg) {
-  return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
-}
+        if (res.ok) {
+          showToast(data.message || "Deleted successfully", "success");
+          // FIX: on the Reported Content page, reload to clean up related reports
+          loadReported();
+        } else {
+          showToast(data.detail || "Delete failed.", "error");
+        }
+      } catch (e) {
+        showToast("Network error. Check backend.", "error");
+      }
+    }
 
-function backendError() {
-  return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
-}
+    async function dismissReport(type, reportId) {
+      try {
+        const res = await fetch(`${API}/admin/dismiss-report/${type}/${reportId}`, { method: "DELETE", headers: authHeader() });
+        const data = await res.json();
+        if (res.ok) {
+          showToast("Report dismissed", "success");
+          // FIX: Remove the specific report item from DOM
+          const el = document.getElementById(type === "issue" ? `ireport-${reportId}` : `creport-${reportId}`);
+          if (el) el.remove();
+        } else {
+          showToast(data.detail || "Failed to dismiss.", "error");
+        }
+      } catch (e) {
+        showToast("Network error.", "error");
+      }
+    }
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
-loadReported();
+    // ── HELPERS ──────────────────────────────────────────────────────────────────
+    function authHeader() {
+      return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
+    }
 
-// FIX: Close modal on background click
-document.getElementById("confirmModal").addEventListener("click", function(e) {
-  if (e.target === this) closeModal();
-});
-</script>
+    function escHtml(str) {
+      return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function formatDate(str) {
+      if (!str) return "—";
+      try { return new Date(str).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); }
+      catch (e) { return str; }
+    }
+
+    function emptyState(msg) {
+      return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
+    }
+
+    function backendError() {
+      return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
+    }
+
+    // ── INIT ─────────────────────────────────────────────────────────────────────
+    loadReported();
+
+    // FIX: Close modal on background click
+    document.getElementById("confirmModal").addEventListener("click", function (e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
 </body>
+
 </html>

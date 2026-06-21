@@ -1,355 +1,355 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leaderboard – CampusCoord</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard – CampusCoord</title>
 
-<style>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-* {
-    box-sizing: border-box;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+        }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f5f5;
-}
+        .container {
+            display: flex;
+        }
 
-.container {
-    display: flex;
-}
+        /* ── Sidebar (identical to dashboard) ── */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            padding: 20px;
+            background: #e9ecef;
+            display: flex;
+            flex-direction: column;
+        }
 
-/* ── Sidebar (identical to dashboard) ── */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 280px;
-    height: 100vh;
-    padding: 20px;
-    background: #e9ecef;
-    display: flex;
-    flex-direction: column;
-}
+        .logo {
+            color: #0d6efd;
+            margin-bottom: 40px;
+            font-size: 22px;
+            font-weight: 700;
+        }
 
-.logo {
-    color: #0d6efd;
-    margin-bottom: 40px;
-    font-size: 22px;
-    font-weight: 700;
-}
+        .menu-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #374151;
+        }
 
-.menu-item {
-    padding: 12px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 500;
-    color: #374151;
-}
+        .menu-item:hover {
+            background: #dbeafe;
+            transform: translateX(4px);
+            transition: 0.2s;
+        }
 
-.menu-item:hover {
-    background: #dbeafe;
-    transform: translateX(4px);
-    transition: 0.2s;
-}
+        .active {
+            background: #dbeafe;
+            color: #0d6efd;
+            font-weight: 700;
+        }
 
-.active {
-    background: #dbeafe;
-    color: #0d6efd;
-    font-weight: 700;
-}
+        .logout-section {
+            margin-top: auto;
+            border-top: 1px solid #d1d5db;
+            padding-top: 20px;
+        }
 
-.logout-section {
-    margin-top: auto;
-    border-top: 1px solid #d1d5db;
-    padding-top: 20px;
-}
+        .logout {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+            text-align: center;
+            font-weight: 600;
+        }
 
-.logout {
-    background: #fee2e2;
-    color: #dc2626;
-    border: 1px solid #fecaca;
-    text-align: center;
-    font-weight: 600;
-}
+        .logout:hover {
+            background: #fecaca;
+        }
 
-.logout:hover {
-    background: #fecaca;
-}
+        /* ── Main content ── */
+        .main-content {
+            margin-left: 320px;
+            padding: 40px;
+            width: 100%;
+        }
 
-/* ── Main content ── */
-.main-content {
-    margin-left: 320px;
-    padding: 40px;
-    width: 100%;
-}
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #111827;
+            margin-bottom: 6px;
+        }
 
-.page-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #111827;
-    margin-bottom: 6px;
-}
+        .subtitle {
+            color: #6b7280;
+            font-size: 15px;
+            margin-bottom: 40px;
+        }
 
-.subtitle {
-    color: #6b7280;
-    font-size: 15px;
-    margin-bottom: 40px;
-}
+        /* ── Two column layout: left table / right sticky Top 3 ── */
+        .content-layout {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
 
-/* ── Two column layout: left table / right sticky Top 3 ── */
-.content-layout {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
-}
+        .left-col {
+            flex: 0 0 75%;
+            max-width: 75%;
+        }
 
-.left-col {
-    flex: 0 0 75%;
-    max-width: 75%;
-}
+        .right-col {
+            flex: 0 0 25%;
+            max-width: 25%;
+            position: sticky;
+            top: 40px;
+        }
 
-.right-col {
-    flex: 0 0 25%;
-    max-width: 25%;
-    position: sticky;
-    top: 40px;
-}
+        /* ── Top 3 Contributors card (refined, minimal) ── */
+        .top3-card {
+            background: white;
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            padding: 28px 24px;
+        }
 
-/* ── Top 3 Contributors card (refined, minimal) ── */
-.top3-card {
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    padding: 28px 24px;
-}
+        .top3-card h3 {
+            margin: 0 0 4px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #111827;
+        }
 
-.top3-card h3 {
-    margin: 0 0 4px;
-    font-size: 16px;
-    font-weight: 700;
-    color: #111827;
-}
+        .top3-subtitle {
+            color: #9ca3af;
+            font-size: 12px;
+            margin-bottom: 24px;
+        }
 
-.top3-subtitle {
-    color: #9ca3af;
-    font-size: 12px;
-    margin-bottom: 24px;
-}
+        .top3-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 12px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
 
-.top3-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 12px;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
+        .top3-item:last-child {
+            margin-bottom: 0;
+        }
 
-.top3-item:last-child {
-    margin-bottom: 0;
-}
+        .top3-item.gold {
+            background: #fffbeb;
+            border-left: 3px solid #f59e0b;
+        }
 
-.top3-item.gold {
-    background: #fffbeb;
-    border-left: 3px solid #f59e0b;
-}
+        .top3-item.silver {
+            background: #f8fafc;
+            border-left: 3px solid #94a3b8;
+        }
 
-.top3-item.silver {
-    background: #f8fafc;
-    border-left: 3px solid #94a3b8;
-}
+        .top3-item.bronze {
+            background: #fff7ed;
+            border-left: 3px solid #cd7c3b;
+        }
 
-.top3-item.bronze {
-    background: #fff7ed;
-    border-left: 3px solid #cd7c3b;
-}
+        .top3-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 13px;
+            flex-shrink: 0;
+        }
 
-.top3-avatar {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #dbeafe;
-    color: #2563eb;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    font-size: 13px;
-    flex-shrink: 0;
-}
+        .top3-info {
+            flex: 1;
+            min-width: 0;
+        }
 
-.top3-info {
-    flex: 1;
-    min-width: 0;
-}
+        .top3-name {
+            font-weight: 600;
+            color: #111827;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
-.top3-name {
-    font-weight: 600;
-    color: #111827;
-    font-size: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        .top3-sub {
+            font-size: 12px;
+            color: #9ca3af;
+            margin-top: 2px;
+        }
 
-.top3-sub {
-    font-size: 12px;
-    color: #9ca3af;
-    margin-top: 2px;
-}
+        .top3-points {
+            flex-shrink: 0;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 4px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
 
-.top3-points {
-    flex-shrink: 0;
-    background: #dbeafe;
-    color: #1d4ed8;
-    padding: 4px 11px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-}
+        /* ── Leaderboard table card ── */
+        .leaderboard-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            max-width: 860px;
+        }
 
-/* ── Leaderboard table card ── */
-.leaderboard-card {
-    background: white;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    max-width: 860px;
-}
+        .lb-header {
+            display: grid;
+            grid-template-columns: 70px 1fr 150px 120px;
+            padding: 12px 24px;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: Arial, sans-serif;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+        }
 
-.lb-header {
-    display: grid;
-    grid-template-columns: 70px 1fr 150px 120px;
-    padding: 12px 24px;
-    background: #f9fafb;
-    border-bottom: 1px solid #e5e7eb;
-    font-size: 12px;
-    font-weight: 700;
-    font-family: Arial, sans-serif;
-    color: #9ca3af;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-}
+        .lb-header .col-solved,
+        .lb-header .col-points {
+            text-align: right;
+        }
 
-.lb-header .col-solved,
-.lb-header .col-points {
-    text-align: right;
-}
+        .user-row {
+            display: grid;
+            grid-template-columns: 70px 1fr 150px 120px;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background 0.15s;
+        }
 
-.user-row {
-    display: grid;
-    grid-template-columns: 70px 1fr 150px 120px;
-    align-items: center;
-    padding: 16px 24px;
-    border-bottom: 1px solid #f3f4f6;
-    transition: background 0.15s;
-}
+        .user-row:last-child {
+            border-bottom: none;
+        }
 
-.user-row:last-child {
-    border-bottom: none;
-}
+        .user-row:hover {
+            background: #f9fafb;
+        }
 
-.user-row:hover {
-    background: #f9fafb;
-}
+        .col-rank {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2563eb;
+        }
 
-.col-rank {
-    font-size: 18px;
-    font-weight: 700;
-    color: #2563eb;
-}
+        .col-user {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
-.col-user {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-}
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #dbeafe;
+            color: #2563eb;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
 
-.avatar {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #dbeafe;
-    color: #2563eb;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-    font-size: 16px;
-    flex-shrink: 0;
-}
+        .user-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #111827;
+        }
 
-.user-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #111827;
-}
+        .col-solved {
+            font-size: 14px;
+            color: #6b7280;
+            text-align: right;
+        }
 
-.col-solved {
-    font-size: 14px;
-    color: #6b7280;
-    text-align: right;
-}
+        .col-points {
+            text-align: right;
+        }
 
-.col-points {
-    text-align: right;
-}
+        .points-pill {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 700;
+        }
 
-.points-pill {
-    display: inline-block;
-    background: #dbeafe;
-    color: #1d4ed8;
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 15px;
-    font-weight: 700;
-}
+        /* ── Loading / empty state ── */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6b7280;
+        }
 
-/* ── Loading / empty state ── */
-.empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: #6b7280;
-}
+        .empty-state .empty-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
 
-.empty-state .empty-icon {
-    font-size: 48px;
-    margin-bottom: 16px;
-}
+        .empty-state h3 {
+            margin: 0 0 8px;
+            color: #374151;
+            font-size: 18px;
+        }
 
-.empty-state h3 {
-    margin: 0 0 8px;
-    color: #374151;
-    font-size: 18px;
-}
+        /* ===================== MOBILE NAVIGATION (hidden on desktop) ===================== */
+        .mobile-header,
+        .bottom-nav {
+            display: none;
+        }
 
-/* ===================== MOBILE NAVIGATION (hidden on desktop) ===================== */
-.mobile-header,
-.bottom-nav {
-    display: none;
-}
+        .mobile-header {
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.mobile-header {
-    justify-content: space-between;
-    align-items: center;
-}
+        .mobile-logo {
+            color: #0d6efd;
+            font-size: 21px;
+            font-weight: 700;
+        }
 
-.mobile-logo {
-    color: #0d6efd;
-    font-size: 21px;
-    font-weight: 700;
-}
-
-.mobile-header-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
+        .mobile-header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
 
         .mobile-avatar-container {
             position: relative;
@@ -410,228 +410,235 @@ body {
             cursor: pointer;
         }
 
-.bottom-nav {
-    border-top: 1px solid #e5e7eb;
-    background: white;
-    padding: 10px 0 max(10px, env(safe-area-inset-bottom));
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-}
+        .bottom-nav {
+            border-top: 1px solid #e5e7eb;
+            background: white;
+            padding: 10px 0 max(10px, env(safe-area-inset-bottom));
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
 
-.bottom-nav-item {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    color: #9ca3af;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-}
+        .bottom-nav-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #9ca3af;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+        }
 
-.bottom-nav-item svg {
-    width: 22px;
-    height: 22px;
-}
+        .bottom-nav-item svg {
+            width: 22px;
+            height: 22px;
+        }
 
-.bottom-nav-item.bottom-nav-active {
-    color: #2563eb;
-}
+        .bottom-nav-item.bottom-nav-active {
+            color: #2563eb;
+        }
 
-@media(max-width:768px) {
-    .container {
-        display: block !important;
-    }
+        @media(max-width:768px) {
+            .container {
+                display: block !important;
+            }
 
-    .mobile-header {
-        display: flex;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        box-sizing: border-box;
-        background: white;
-        padding: 16px 20px;
-        border-bottom: 1px solid #e5e7eb;
-        z-index: 1000;
-    }
+            .mobile-header {
+                display: flex;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                box-sizing: border-box;
+                background: white;
+                padding: 16px 20px;
+                border-bottom: 1px solid #e5e7eb;
+                z-index: 1000;
+            }
 
-    .bottom-nav {
-        display: flex;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        box-sizing: border-box;
-        z-index: 1000;
-    }
+            .bottom-nav {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                box-sizing: border-box;
+                z-index: 1000;
+            }
 
-    .main-content {
-        margin-left: 0 !important;
-        padding: 20px !important;
-        padding-top: 80px !important;
-        padding-bottom: 90px !important;
-        width: 100% !important;
-    }
+            .main-content {
+                margin-left: 0 !important;
+                padding: 20px !important;
+                padding-top: 80px !important;
+                padding-bottom: 90px !important;
+                width: 100% !important;
+            }
 
-    .sidebar {
-        display: none !important;
-    }
+            .sidebar {
+                display: none !important;
+            }
 
-    .content-layout {
-        flex-direction: column !important;
-    }
+            .content-layout {
+                flex-direction: column !important;
+            }
 
-    .left-col, .right-col {
-        flex: 0 0 100% !important;
-        max-width: 100% !important;
-        width: 100% !important;
-    }
+            .left-col,
+            .right-col {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+                width: 100% !important;
+            }
 
-    .right-col {
-        position: static !important;
-        margin-top: 24px;
-    }
+            .right-col {
+                position: static !important;
+                margin-top: 24px;
+            }
 
-    .leaderboard-card {
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-        width: 100%;
-    }
+            .leaderboard-card {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                width: 100%;
+            }
 
-    .lb-header, .user-row {
-        min-width: 580px;
-    }
-}
-</style>
+            .lb-header,
+            .user-row {
+                min-width: 580px;
+            }
+        }
+    </style>
+
 <body>
 
-<div class="mobile-header">
-    <div class="mobile-logo">CampusCoord</div>
-    <div class="mobile-header-right">
-        <div class="mobile-avatar-container">
-            <div class="mobile-avatar" id="mobileAvatarBtn">U</div>
-            <div class="mobile-avatar-dropdown" id="mobileAvatarDropdown">
-                <div class="dropdown-item" id="dropdownProfileBtn">My Profile</div>
-                <div class="dropdown-item" id="dropdownResolvedBtn">Resolved Issues</div>
-                <div class="dropdown-item dropdown-logout" id="dropdownLogoutBtn">Logout</div>
+    <div class="mobile-header">
+        <div class="mobile-logo">CampusCoord</div>
+        <div class="mobile-header-right">
+            <div class="mobile-avatar-container">
+                <div class="mobile-avatar" id="mobileAvatarBtn">U</div>
+                <div class="mobile-avatar-dropdown" id="mobileAvatarDropdown">
+                    <div class="dropdown-item" id="dropdownProfileBtn">My Profile</div>
+                    <div class="dropdown-item" id="dropdownResolvedBtn">Resolved Issues</div>
+                    <div class="dropdown-item dropdown-logout" id="dropdownLogoutBtn">Logout</div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="container">
+    <div class="container">
 
-    <!-- Sidebar -->
-    <div class="sidebar">
+        <!-- Sidebar -->
+        <div class="sidebar">
 
-        <h2 class="logo">CampusCoord</h2>
+            <h2 class="logo">CampusCoord</h2>
 
-        <div class="menu-item" id="dashboardBtn">Dashboard</div>
-        <div class="menu-item" id="reportIssueBtn">Report Issue</div>
-        <div class="menu-item" id="myProfileBtn">My Profile</div>
-        <div class="menu-item active">Leaderboard</div>
-        <div class="menu-item" id="resolvedBtn">Resolved</div>
+            <div class="menu-item" id="dashboardBtn">Dashboard</div>
+            <div class="menu-item" id="reportIssueBtn">Report Issue</div>
+            <div class="menu-item" id="myProfileBtn">My Profile</div>
+            <div class="menu-item active">Leaderboard</div>
+            <div class="menu-item" id="resolvedBtn">Resolved</div>
 
-        <div class="logout-section">
-            <div class="menu-item logout" id="logoutBtn">Logout</div>
+            <div class="logout-section">
+                <div class="menu-item logout" id="logoutBtn">Logout</div>
+            </div>
+
         </div>
 
-    </div>
+        <!-- Main -->
+        <div class="main-content">
 
-    <!-- Main -->
-    <div class="main-content">
+            <h1 class="page-title">Top Contributors</h1>
+            <p class="subtitle">People helping solve campus problems</p>
 
-        <h1 class="page-title">Top Contributors</h1>
-        <p class="subtitle">People helping solve campus problems</p>
+            <div class="content-layout">
 
-        <div class="content-layout">
-
-            <!-- LEFT (75%): Full table — unchanged -->
-            <div class="left-col">
-                <div class="leaderboard-card">
-                    <div class="lb-header">
-                        <span>Rank</span>
-                        <span>Student</span>
-                        <span class="col-solved">Issues Solved</span>
-                        <span class="col-points">Points</span>
+                <!-- LEFT (75%): Full table — unchanged -->
+                <div class="left-col">
+                    <div class="leaderboard-card">
+                        <div class="lb-header">
+                            <span>Rank</span>
+                            <span>Student</span>
+                            <span class="col-solved">Issues Solved</span>
+                            <span class="col-points">Points</span>
+                        </div>
+                        <div id="leaderboardContainer"></div>
                     </div>
-                    <div id="leaderboardContainer"></div>
                 </div>
-            </div>
 
-            <!-- RIGHT (25%): Sticky Top 3 card — replaces podium -->
-            <div class="right-col">
-                <div class="top3-card">
-                    <h3>Top Contributors</h3>
-                    <p class="top3-subtitle">Our most active problem solvers</p>
-                    <div id="top3Container"></div>
+                <!-- RIGHT (25%): Sticky Top 3 card — replaces podium -->
+                <div class="right-col">
+                    <div class="top3-card">
+                        <h3>Top Contributors</h3>
+                        <p class="top3-subtitle">Our most active problem solvers</p>
+                        <div id="top3Container"></div>
+                    </div>
                 </div>
+
             </div>
 
         </div>
 
     </div>
 
-</div>
-
-<div class="bottom-nav">
-    <div class="bottom-nav-item" id="bottomNav_dashboard">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-        </svg>
-        <span>Dashboard</span>
+    <div class="bottom-nav">
+        <div class="bottom-nav-item" id="bottomNav_dashboard">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Dashboard</span>
+        </div>
+        <div class="bottom-nav-item" id="bottomNav_report">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Report</span>
+        </div>
+        <div class="bottom-nav-item" id="bottomNav_profile">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>Profile</span>
+        </div>
+        <div class="bottom-nav-item bottom-nav-active" id="bottomNav_stats">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>Stats</span>
+        </div>
     </div>
-    <div class="bottom-nav-item" id="bottomNav_report">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-        </svg>
-        <span>Report</span>
-    </div>
-    <div class="bottom-nav-item" id="bottomNav_profile">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-        <span>Profile</span>
-    </div>
-    <div class="bottom-nav-item bottom-nav-active" id="bottomNav_stats">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="18" y1="20" x2="18" y2="10"></line>
-            <line x1="12" y1="20" x2="12" y2="4"></line>
-            <line x1="6" y1="20" x2="6" y2="14"></line>
-        </svg>
-        <span>Stats</span>
-    </div>
-</div>
 
-<script>
+    <script>
 
-async function getLeaderboard() {
+        async function getLeaderboard() {
 
-    const response = await fetch("http://127.0.0.1:8000/leaderboard")
-    const data = await response.json()
+            const response = await fetch("https://campuscoord.onrender.com/leaderboard")
+            const data = await response.json()
 
-    renderTop3(data)
-    renderTable(data)
-}
+            renderTop3(data)
+            renderTable(data)
+        }
 
-function renderTop3(data) {
+        function renderTop3(data) {
 
-    const container = document.getElementById("top3Container")
+            const container = document.getElementById("top3Container")
 
-    if (!data || data.length === 0) {
-        container.innerHTML = `<p style="color:#6b7280; font-size:13px;">No data yet</p>`
-        return
-    }
+            if (!data || data.length === 0) {
+                container.innerHTML = `<p style="color:#6b7280; font-size:13px;">No data yet</p>`
+                return
+            }
 
-    const classes = ["gold", "silver", "bronze"]
+            const classes = ["gold", "silver", "bronze"]
 
-    const top3 = data.slice(0, 3)
+            const top3 = data.slice(0, 3)
 
-    container.innerHTML = top3.map((user, index) => `
+            container.innerHTML = top3.map((user, index) => `
         <div class="top3-item ${classes[index]}">
             <div class="top3-avatar" style="overflow:hidden;">${user.avatar_url ? `<img src="${user.avatar_url}" style="width:100%; height:100%; object-fit:cover;" />` : user.name[0].toUpperCase()}</div>
             <div class="top3-info">
@@ -641,24 +648,24 @@ function renderTop3(data) {
             <span class="top3-points">${user.points}</span>
         </div>
     `).join("")
-}
+        }
 
-function renderTable(data) {
+        function renderTable(data) {
 
-    const container = document.getElementById("leaderboardContainer")
+            const container = document.getElementById("leaderboardContainer")
 
-    if (!data || data.length === 0) {
-        container.innerHTML = `
+            if (!data || data.length === 0) {
+                container.innerHTML = `
         <div class="empty-state">
             <div class="empty-icon">📭</div>
             <h3>No data yet</h3>
             <p>Be the first to report and resolve campus issues!</p>
         </div>
         `
-        return
-    }
+                return
+            }
 
-    container.innerHTML = data.map((user, index) => `
+            container.innerHTML = data.map((user, index) => `
         <div class="user-row">
 
             <div class="col-rank">#${index + 1}</div>
@@ -676,87 +683,88 @@ function renderTable(data) {
 
         </div>
     `).join("")
-}
+        }
 
-getLeaderboard()
+        getLeaderboard()
 
-// Navigation
-async function loadUserAvatar() {
-    const token = localStorage.getItem("token")
-    if (!token) return
-    try {
-        const res = await fetch("http://127.0.0.1:8000/me", {
-            headers: { "Authorization": `Bearer ${token}` }
-        })
-        if (res.ok) {
-            const data = await res.json()
-            if (document.getElementById("mobileAvatarBtn")) {
-                if (data.avatar_url) {
-                    document.getElementById("mobileAvatarBtn").innerHTML = `<img src="${data.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />`
-                } else {
-                    document.getElementById("mobileAvatarBtn").innerText = (data.name || "U")[0].toUpperCase()
+        // Navigation
+        async function loadUserAvatar() {
+            const token = localStorage.getItem("token")
+            if (!token) return
+            try {
+                const res = await fetch("https://campuscoord.onrender.com/me", {
+                    headers: { "Authorization": `Bearer ${token}` }
+                })
+                if (res.ok) {
+                    const data = await res.json()
+                    if (document.getElementById("mobileAvatarBtn")) {
+                        if (data.avatar_url) {
+                            document.getElementById("mobileAvatarBtn").innerHTML = `<img src="${data.avatar_url}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />`
+                        } else {
+                            document.getElementById("mobileAvatarBtn").innerText = (data.name || "U")[0].toUpperCase()
+                        }
+                    }
                 }
-            }
+            } catch (e) { console.log(e) }
         }
-    } catch(e) { console.log(e) }
-}
-loadUserAvatar()
+        loadUserAvatar()
 
-document.getElementById("logoutBtn").addEventListener("click", function () {
-    localStorage.removeItem("token")
-    window.location.href = "login.html"
-})
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+            localStorage.removeItem("token")
+            window.location.href = "login.html"
+        })
 
-document.getElementById("dashboardBtn").addEventListener("click", function () {
-    window.location.href = "dashboard.html"
-})
+        document.getElementById("dashboardBtn").addEventListener("click", function () {
+            window.location.href = "dashboard.html"
+        })
 
-document.getElementById("reportIssueBtn").addEventListener("click", function () {
-    window.location.href = "report-issue.html"
-})
+        document.getElementById("reportIssueBtn").addEventListener("click", function () {
+            window.location.href = "report-issue.html"
+        })
 
-document.getElementById("myProfileBtn").addEventListener("click", function () {
-    window.location.href = "My_profile.html"
-})
+        document.getElementById("myProfileBtn").addEventListener("click", function () {
+            window.location.href = "My_profile.html"
+        })
 
-document.getElementById("resolvedBtn").addEventListener("click", function () {
-    window.location.href = "resolved.html"
-})
+        document.getElementById("resolvedBtn").addEventListener("click", function () {
+            window.location.href = "resolved.html"
+        })
 
-// Bottom Navigation handlers
-document.getElementById("bottomNav_dashboard").addEventListener("click", () => window.location.href = "dashboard.html")
-document.getElementById("bottomNav_report").addEventListener("click", () => window.location.href = "report-issue.html")
-document.getElementById("bottomNav_profile").addEventListener("click", () => window.location.href = "My_profile.html")
-document.getElementById("bottomNav_stats").addEventListener("click", () => window.location.href = "leaderboard.html")
-// Mobile Avatar Dropdown Toggle
-const avatarBtn = document.getElementById("mobileAvatarBtn")
-const avatarDropdown = document.getElementById("mobileAvatarDropdown")
+        // Bottom Navigation handlers
+        document.getElementById("bottomNav_dashboard").addEventListener("click", () => window.location.href = "dashboard.html")
+        document.getElementById("bottomNav_report").addEventListener("click", () => window.location.href = "report-issue.html")
+        document.getElementById("bottomNav_profile").addEventListener("click", () => window.location.href = "My_profile.html")
+        document.getElementById("bottomNav_stats").addEventListener("click", () => window.location.href = "leaderboard.html")
+        // Mobile Avatar Dropdown Toggle
+        const avatarBtn = document.getElementById("mobileAvatarBtn")
+        const avatarDropdown = document.getElementById("mobileAvatarDropdown")
 
-if (avatarBtn && avatarDropdown) {
-    avatarBtn.addEventListener("click", function (e) {
-        e.stopPropagation()
-        avatarDropdown.classList.toggle("show")
-    })
-    
-    document.addEventListener("click", function (e) {
-        if (!avatarBtn.contains(e.target) && !avatarDropdown.contains(e.target)) {
-            avatarDropdown.classList.remove("show")
+        if (avatarBtn && avatarDropdown) {
+            avatarBtn.addEventListener("click", function (e) {
+                e.stopPropagation()
+                avatarDropdown.classList.toggle("show")
+            })
+
+            document.addEventListener("click", function (e) {
+                if (!avatarBtn.contains(e.target) && !avatarDropdown.contains(e.target)) {
+                    avatarDropdown.classList.remove("show")
+                }
+            })
         }
-    })
-}
 
-document.getElementById("dropdownProfileBtn").addEventListener("click", () => {
-    window.location.href = "My_profile.html"
-})
-document.getElementById("dropdownResolvedBtn").addEventListener("click", () => {
-    window.location.href = "resolved.html"
-})
-document.getElementById("dropdownLogoutBtn").addEventListener("click", () => {
-    localStorage.removeItem("token")
-    window.location.href = "login.html"
-})
+        document.getElementById("dropdownProfileBtn").addEventListener("click", () => {
+            window.location.href = "My_profile.html"
+        })
+        document.getElementById("dropdownResolvedBtn").addEventListener("click", () => {
+            window.location.href = "resolved.html"
+        })
+        document.getElementById("dropdownLogoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("token")
+            window.location.href = "login.html"
+        })
 
-</script>
+    </script>
 
 </body>
+
 </html>

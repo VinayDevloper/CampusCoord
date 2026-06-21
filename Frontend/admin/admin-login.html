@@ -1,117 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusCoord Admin — Login</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:#f5f5f5;}
 
-#loginScreen{
-  display:flex;justify-content:center;align-items:center;
-  height:100vh;background:#f5f5f5;
-}
-.login-card{
-  background:white;padding:40px;width:370px;
-  border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1);
-}
-.login-card h1{text-align:center;color:#2563eb;margin-bottom:4px;}
-.admin-badge{
-  display:block;text-align:center;background:#fef3c7;color:#92400e;
-  font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;
-  width:fit-content;margin:0 auto 24px;letter-spacing:1px;
-}
-.login-card label{display:block;margin-bottom:6px;font-size:14px;font-weight:600;color:#374151;}
-.login-card input{
-  width:100%;padding:11px 14px;border:1px solid #d1d5db;
-  border-radius:8px;font-size:15px;margin-bottom:16px;outline:none;
-  transition:border-color 0.2s;
-}
-.login-card input:focus{border-color:#2563eb;}
-#adminLoginBtn{
-  width:100%;padding:12px;background:#2563eb;color:white;border:none;
-  border-radius:8px;font-size:16px;font-weight:600;cursor:pointer;transition:background 0.2s;
-}
-#adminLoginBtn:hover{background:#1d4ed8;}
-.login-hint{margin-top:16px;text-align:center;color:#9ca3af;font-size:13px;}
-.login-error{
-  background:#fee2e2;color:#dc2626;padding:10px 14px;
-  border-radius:8px;font-size:14px;margin-bottom:14px;display:none;
-}
-</style>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusCoord Admin — Login</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    #loginScreen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f5f5f5;
+    }
+
+    .login-card {
+      background: white;
+      padding: 40px;
+      width: 370px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-card h1 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 4px;
+    }
+
+    .admin-badge {
+      display: block;
+      text-align: center;
+      background: #fef3c7;
+      color: #92400e;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      width: fit-content;
+      margin: 0 auto 24px;
+      letter-spacing: 1px;
+    }
+
+    .login-card label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .login-card input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .login-card input:focus {
+      border-color: #2563eb;
+    }
+
+    #adminLoginBtn {
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #adminLoginBtn:hover {
+      background: #1d4ed8;
+    }
+
+    .login-hint {
+      margin-top: 16px;
+      text-align: center;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+
+    .login-error {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 14px;
+      display: none;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- LOGIN -->
-<div id="loginScreen">
-  <div class="login-card">
-    <h1>CampusCoord</h1>
-    <span class="admin-badge">ADMIN PANEL</span>
-    <div class="login-error" id="loginError"></div>
-    <label>Admin Email</label>
-    <input type="email" id="adminEmail" placeholder="admin@university.edu">
-    <label>Password</label>
-    <input type="password" id="adminPassword" placeholder="Enter admin password">
-    <button id="adminLoginBtn">Sign In as Admin</button>
-    <p class="login-hint">Only authorized administrators can access this panel.</p>
+  <!-- LOGIN -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <h1>CampusCoord</h1>
+      <span class="admin-badge">ADMIN PANEL</span>
+      <div class="login-error" id="loginError"></div>
+      <label>Admin Email</label>
+      <input type="email" id="adminEmail" placeholder="admin@university.edu">
+      <label>Password</label>
+      <input type="password" id="adminPassword" placeholder="Enter admin password">
+      <button id="adminLoginBtn">Sign In as Admin</button>
+      <p class="login-hint">Only authorized administrators can access this panel.</p>
+    </div>
   </div>
-</div>
 
-<script>
-const API = "http://127.0.0.1:8000";
+  <script>
+    const API = "https://campuscoord.onrender.com";
 
-// FIX: No hardcoded password. We only rely on backend /login + email check.
-// Admin email is set here — change to your email.
-const ADMIN_EMAIL = "sawantvinay289@gmail.com";
+    // FIX: No hardcoded password. We only rely on backend /login + email check.
+    // Admin email is set here — change to your email.
+    const ADMIN_EMAIL = "sawantvinay289@gmail.com";
 
-document.getElementById("adminLoginBtn").addEventListener("click", async () => {
-  const email = document.getElementById("adminEmail").value.trim();
-  const pass  = document.getElementById("adminPassword").value;
-  const errEl = document.getElementById("loginError");
-  errEl.style.display = "none";
+    document.getElementById("adminLoginBtn").addEventListener("click", async () => {
+      const email = document.getElementById("adminEmail").value.trim();
+      const pass = document.getElementById("adminPassword").value;
+      const errEl = document.getElementById("loginError");
+      errEl.style.display = "none";
 
-  if (!email || !pass) { showLoginError("Please enter email and password."); return; }
+      if (!email || !pass) { showLoginError("Please enter email and password."); return; }
 
-  const btn = document.getElementById("adminLoginBtn");
-  btn.textContent = "Signing in..."; btn.disabled = true;
+      const btn = document.getElementById("adminLoginBtn");
+      btn.textContent = "Signing in..."; btn.disabled = true;
 
-  const form = new URLSearchParams();
-  form.append("username", email);
-  form.append("password", pass);
+      const form = new URLSearchParams();
+      form.append("username", email);
+      form.append("password", pass);
 
-  try {
-    const res  = await fetch(`${API}/login`, { method:"POST", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:form });
-    const data = await res.json();
+      try {
+        const res = await fetch(`${API}/login`, { method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: form });
+        const data = await res.json();
 
-    if (data.access_token) {
-      // FIX: Check admin email on frontend AND backend will 403 on admin routes if not admin
-      if (email !== ADMIN_EMAIL) {
-        showLoginError("Access denied. This account is not an admin.");
-        return;
+        if (data.access_token) {
+          // FIX: Check admin email on frontend AND backend will 403 on admin routes if not admin
+          if (email !== ADMIN_EMAIL) {
+            showLoginError("Access denied. This account is not an admin.");
+            return;
+          }
+          // Persist token for the other admin pages
+          sessionStorage.setItem("adminToken", data.access_token);
+          window.location.href = "admin_dashboard.html";
+        } else {
+          showLoginError(data.message || "Invalid credentials.");
+        }
+      } catch (e) {
+        showLoginError("Cannot connect to backend. Is FastAPI running?");
+      } finally {
+        btn.textContent = "Sign In as Admin"; btn.disabled = false;
       }
-      // Persist token for the other admin pages
-      sessionStorage.setItem("adminToken", data.access_token);
-      window.location.href = "admin_dashboard.html";
-    } else {
-      showLoginError(data.message || "Invalid credentials.");
+    });
+
+    function showLoginError(msg) {
+      const el = document.getElementById("loginError");
+      el.textContent = msg; el.style.display = "block";
     }
-  } catch(e) {
-    showLoginError("Cannot connect to backend. Is FastAPI running?");
-  } finally {
-    btn.textContent = "Sign In as Admin"; btn.disabled = false;
-  }
-});
 
-function showLoginError(msg) {
-  const el = document.getElementById("loginError");
-  el.textContent = msg; el.style.display = "block";
-}
-
-// FIX: Enter key on login
-document.getElementById("adminPassword").addEventListener("keydown", e => {
-  if (e.key === "Enter") document.getElementById("adminLoginBtn").click();
-});
-</script>
+    // FIX: Enter key on login
+    document.getElementById("adminPassword").addEventListener("keydown", e => {
+      if (e.key === "Enter") document.getElementById("adminLoginBtn").click();
+    });
+  </script>
 </body>
+
 </html>

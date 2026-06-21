@@ -1,286 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusCoord Admin — Overview</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:#f5f5f5;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusCoord Admin — Overview</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.container{display:flex;}
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
 
-.sidebar{
-  position:fixed;left:0;top:0;width:260px;height:100vh;
-  padding:20px;background:#e9ecef;display:flex;flex-direction:column;
-}
-.logo{color:#0d6efd;margin-bottom:6px;font-size:20px;}
-.admin-tag{
-  font-size:11px;font-weight:700;letter-spacing:1px;color:#92400e;
-  background:#fef3c7;padding:3px 10px;border-radius:20px;
-  display:inline-block;margin-bottom:28px;
-}
-.menu-item{
-  padding:11px 14px;margin-bottom:8px;border-radius:8px;cursor:pointer;
-  font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;
-  transition:background 0.15s,transform 0.15s;
-  text-decoration:none;color:inherit;
-}
-.menu-item:hover{background:#dbeafe;transform:translateX(3px);}
-.menu-item.active{background:#dbeafe;color:#0d6efd;font-weight:700;}
-.menu-icon{font-size:16px;}
-.logout-section{margin-top:auto;border-top:1px solid #d1d5db;padding-top:16px;}
-.logout{background:#fee2e2;color:#dc2626;border:1px solid #fecaca;text-align:center;font-weight:600;}
-.logout:hover{background:#fecaca;}
+    .container {
+      display: flex;
+    }
 
-.main-content{
-    margin-left:280px;
-    width:calc(100vw - 280px);
-    min-height:100vh;
-    padding:36px;
-}
-.page-title{font-size:28px;font-weight:700;margin-bottom:6px;}
-.subtitle{color:#6b7280;margin-bottom:28px;font-size:15px;}
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 100vh;
+      padding: 20px;
+      background: #e9ecef;
+      display: flex;
+      flex-direction: column;
+    }
 
-.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:32px;}
-.stat-card{background:white;border-radius:12px;padding:22px 20px;box-shadow:0 2px 10px rgba(0,0,0,0.06);}
-.stat-label{font-size:13px;color:#6b7280;margin-bottom:8px;}
-.stat-value{font-size:32px;font-weight:800;color:#1e40af;}
-.stat-icon{
-    width:42px;
-    height:42px;
-    object-fit:contain;
-    float:right;
-    margin-top:-40px;
-}
+    .logo {
+      color: #0d6efd;
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
 
-.table-card{
-  background:white;border-radius:12px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;margin-bottom:24px;
-}
-.table-header{
-  padding:18px 22px;border-bottom:1px solid #e5e7eb;
-  display:flex;justify-content:space-between;align-items:center;
-}
-.table-header h3{font-size:17px;font-weight:700;}
-table{width:100%;border-collapse:collapse;}
-th{
-  background:#f9fafb;padding:12px 18px;text-align:left;
-  font-size:13px;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;
-}
-td{padding:14px 18px;border-bottom:1px solid #f3f4f6;font-size:14px;vertical-align:middle;}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:#f9fafb;}
+    .admin-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 28px;
+    }
 
-.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block;}
-.badge-open{background:#dcfce7;color:#166534;}
-.badge-progress{background:#fef3c7;color:#92400e;}
-.badge-resolved{background:#dbeafe;color:#1d4ed8;}
-.badge-cat{background:#dbeafe;color:#2563eb;}
-.badge-banned{background:#fee2e2;color:#dc2626;}
-.badge-active{background:#dcfce7;color:#166534;}
+    .menu-item {
+      padding: 11px 14px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s, transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
 
-.btn{padding:7px 14px;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:opacity 0.15s;}
-.btn:hover{opacity:0.8;}
-.btn-danger{background:#fee2e2;color:#dc2626;}
-.btn-warn{background:#fef3c7;color:#b45309;}
-.btn-primary{background:#dbeafe;color:#1d4ed8;}
-.btn-success{background:#dcfce7;color:#166534;}
-.btn-sm{padding:5px 10px;font-size:12px;}
-.btn-actions{display:flex;gap:8px;align-items:center;}
+    .menu-item:hover {
+      background: #dbeafe;
+      transform: translateX(3px);
+    }
 
-.empty-state{text-align:center;padding:48px 20px;color:#9ca3af;font-size:15px;}
-.empty-icon{font-size:40px;margin-bottom:12px;}
-.loading{text-align:center;padding:30px;color:#6b7280;}
+    .menu-item.active {
+      background: #dbeafe;
+      color: #0d6efd;
+      font-weight: 700;
+    }
 
-/* Toast */
-.toast{
-  position:fixed;bottom:28px;right:28px;z-index:2000;
-  background:#1e293b;color:white;padding:12px 20px;border-radius:10px;
-  font-size:14px;font-weight:500;opacity:0;pointer-events:none;
-  transition:opacity 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.2);
-}
-.toast.show{opacity:1;}
-.toast.success{border-left:4px solid #22c55e;}
-.toast.error{border-left:4px solid #ef4444;}
+    .menu-icon {
+      font-size: 16px;
+    }
 
-.modal-bg{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
-  z-index:1000;justify-content:center;align-items:center;
-}
-.modal-bg.open{display:flex;}
-.modal{background:white;border-radius:14px;padding:32px;width:440px;box-shadow:0 8px 40px rgba(0,0,0,0.18);}
-.modal h3{font-size:19px;font-weight:700;margin-bottom:10px;}
-.modal p{color:#6b7280;font-size:14px;margin-bottom:22px;}
-.modal-actions{display:flex;gap:12px;justify-content:flex-end;}
-</style>
+    .logout-section {
+      margin-top: auto;
+      border-top: 1px solid #d1d5db;
+      padding-top: 16px;
+    }
+
+    .logout {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .logout:hover {
+      background: #fecaca;
+    }
+
+    .main-content {
+      margin-left: 280px;
+      width: calc(100vw - 280px);
+      min-height: 100vh;
+      padding: 36px;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 12px;
+      padding: 22px 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #1e40af;
+    }
+
+    .stat-icon {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      float: right;
+      margin-top: -40px;
+    }
+
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    .table-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .table-header h3 {
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #f9fafb;
+      padding: 12px 18px;
+      text-align: left;
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 600;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #f9fafb;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-open {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-progress {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-resolved {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .badge-cat {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .badge-banned {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .btn {
+      padding: 7px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .btn-warn {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .btn-primary {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .btn-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .btn-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: #9ca3af;
+      font-size: 15px;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 2000;
+      background: #1e293b;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid #22c55e;
+    }
+
+    .toast.error {
+      border-left: 4px solid #ef4444;
+    }
+
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 14px;
+      padding: 32px;
+      width: 440px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .modal p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="adminApp">
-<div class="container">
-  <div class="sidebar">
-    <h2 class="logo">CampusCoord</h2>
-    <span class="admin-tag">⚙ ADMIN</span>
-    <a class="menu-item active" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
-    <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
-    <a class="menu-item" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
-    <a class="menu-item" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
-    <a class="menu-item" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
-    <div class="logout-section">
-      <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
-    </div>
-  </div>
+  <div id="adminApp">
+    <div class="container">
+      <div class="sidebar">
+        <h2 class="logo">CampusCoord</h2>
+        <span class="admin-tag">⚙ ADMIN</span>
+        <a class="menu-item active" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
+        <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
+        <a class="menu-item" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
+        <a class="menu-item" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
+        <a class="menu-item" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
+        <div class="logout-section">
+          <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
+        </div>
+      </div>
 
-  <div class="main-content">
+      <div class="main-content">
 
-    <!-- OVERVIEW -->
-    <div class="section active" id="section-overview">
-      <h1 class="page-title">Admin Overview</h1>
-      <p class="subtitle">Campus issue management at a glance</p>
-      <div class="stats-grid">
+        <!-- OVERVIEW -->
+        <div class="section active" id="section-overview">
+          <h1 class="page-title">Admin Overview</h1>
+          <p class="subtitle">Campus issue management at a glance</p>
+          <div class="stats-grid">
 
-        <div class="stat-card">
-            <div class="stat-label">Total Issues</div>
-            <div class="stat-value" id="statIssues">—</div>
+            <div class="stat-card">
+              <div class="stat-label">Total Issues</div>
+              <div class="stat-value" id="statIssues">—</div>
 
-            <img
-                src="../images/Total Issues.png"
-                class="stat-icon"
-            >
+              <img src="../images/Total Issues.png" class="stat-icon">
+            </div>
+
+
+            <div class="stat-card">
+              <div class="stat-label">Total Users</div>
+              <div class="stat-value" id="statUsers">—</div>
+
+              <img src="../images/total users.png" class="stat-icon">
+            </div>
+
+
+            <div class="stat-card">
+              <div class="stat-label">Resolved</div>
+              <div class="stat-value" id="statResolved">—</div>
+
+              <img src="../images/resolved.png" class="stat-icon">
+            </div>
+
+
+            <div class="stat-card">
+              <div class="stat-label">Pending Reports</div>
+              <div class="stat-value" id="statReports">—</div>
+
+              <img src="../images/pending reports.png" class="stat-icon">
+            </div>
+
+          </div>
+          <div class="table-card">
+            <div class="table-header">
+              <h3>Recent Issues</h3>
+            </div>
+            <div id="recentIssues">
+              <div class="loading">Loading...</div>
+            </div>
+          </div>
         </div>
 
-
-        <div class="stat-card">
-            <div class="stat-label">Total Users</div>
-            <div class="stat-value" id="statUsers">—</div>
-
-            <img
-                src="../images/total users.png"
-                class="stat-icon"
-            >
-        </div>
-
-
-        <div class="stat-card">
-            <div class="stat-label">Resolved</div>
-            <div class="stat-value" id="statResolved">—</div>
-
-            <img
-                src="../images/resolved.png"
-                class="stat-icon"
-            >
-        </div>
-
-
-        <div class="stat-card">
-            <div class="stat-label">Pending Reports</div>
-            <div class="stat-value" id="statReports">—</div>
-
-            <img
-                src="../images/pending reports.png"
-                class="stat-icon"
-            >
-        </div>
-
-    </div>
-      <div class="table-card">
-        <div class="table-header"><h3>Recent Issues</h3></div>
-        <div id="recentIssues"><div class="loading">Loading...</div></div>
       </div>
     </div>
-
   </div>
-</div>
-</div>
 
-<!-- CONFIRM MODAL -->
-<div class="modal-bg" id="confirmModal">
-  <div class="modal">
-    <h3 id="modalTitle">Confirm Action</h3>
-    <p id="modalMsg">Are you sure?</p>
-    <div class="modal-actions">
-      <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+  <!-- CONFIRM MODAL -->
+  <div class="modal-bg" id="confirmModal">
+    <div class="modal">
+      <h3 id="modalTitle">Confirm Action</h3>
+      <p id="modalMsg">Are you sure?</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
-<script>
-const API = "http://127.0.0.1:8000";
+  <script>
+    const API = "https://campuscoord.onrender.com";
 
-// ── AUTH GUARD ───────────────────────────────────────────────────────────────
-let adminToken = sessionStorage.getItem("adminToken");
-if (!adminToken) {
-  window.location.href = "admin-login.html";
-}
+    // ── AUTH GUARD ───────────────────────────────────────────────────────────────
+    let adminToken = sessionStorage.getItem("adminToken");
+    if (!adminToken) {
+      window.location.href = "admin-login.html";
+    }
 
-let allIssues = [];
+    let allIssues = [];
 
-// ── TOAST ────────────────────────────────────────────────────────────────────
-function showToast(msg, type="success") {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.className = `toast show ${type}`;
-  setTimeout(() => { t.className = "toast"; }, 3000);
-}
+    // ── TOAST ────────────────────────────────────────────────────────────────────
+    function showToast(msg, type = "success") {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = `toast show ${type}`;
+      setTimeout(() => { t.className = "toast"; }, 3000);
+    }
 
-// ── LOGOUT ───────────────────────────────────────────────────────────────────
-document.getElementById("adminLogoutBtn").addEventListener("click", () => {
-  sessionStorage.removeItem("adminToken");
-  window.location.href = "admin-login.html";
-});
+    // ── LOGOUT ───────────────────────────────────────────────────────────────────
+    document.getElementById("adminLogoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("adminToken");
+      window.location.href = "admin-login.html";
+    });
 
-// ── OVERVIEW ─────────────────────────────────────────────────────────────────
-async function loadOverview() {
-  try {
-    // FIX: fetch issues and reports in parallel; actually load report count
-    const [issuesRes, usersRes, issueRepsRes, cmtRepsRes] = await Promise.all([
-      fetch(`${API}/issues`),
-      fetch(`${API}/`, { headers: authHeader() }),
-      fetch(`${API}/admin/issue-reports`, { headers: authHeader() }),
-      fetch(`${API}/admin/comment-reports`, { headers: authHeader() })
-    ]);
+    // ── OVERVIEW ─────────────────────────────────────────────────────────────────
+    async function loadOverview() {
+      try {
+        // FIX: fetch issues and reports in parallel; actually load report count
+        const [issuesRes, usersRes, issueRepsRes, cmtRepsRes] = await Promise.all([
+          fetch(`${API}/issues`),
+          fetch(`${API}/`, { headers: authHeader() }),
+          fetch(`${API}/admin/issue-reports`, { headers: authHeader() }),
+          fetch(`${API}/admin/comment-reports`, { headers: authHeader() })
+        ]);
 
-    const issues = await issuesRes.json();
-    allIssues = Array.isArray(issues) ? issues : [];
-    document.getElementById("statIssues").textContent = allIssues.length;
-    document.getElementById("statResolved").textContent = allIssues.filter(i => i.status === "resolved").length;
+        const issues = await issuesRes.json();
+        allIssues = Array.isArray(issues) ? issues : [];
+        document.getElementById("statIssues").textContent = allIssues.length;
+        document.getElementById("statResolved").textContent = allIssues.filter(i => i.status === "resolved").length;
 
-    // Users count
-    try {
-      const users = await usersRes.json();
-      document.getElementById("statUsers").textContent = Array.isArray(users) ? users.length : "—";
-    } catch(e) { document.getElementById("statUsers").textContent = "—"; }
+        // Users count
+        try {
+          const users = await usersRes.json();
+          document.getElementById("statUsers").textContent = Array.isArray(users) ? users.length : "—";
+        } catch (e) { document.getElementById("statUsers").textContent = "—"; }
 
-    // FIX: Real report count
-    try {
-      const ir = issueRepsRes.ok ? await issueRepsRes.json() : [];
-      const cr = cmtRepsRes.ok  ? await cmtRepsRes.json()   : [];
-      document.getElementById("statReports").textContent = (ir.length || 0) + (cr.length || 0);
-    } catch(e) { document.getElementById("statReports").textContent = "—"; }
+        // FIX: Real report count
+        try {
+          const ir = issueRepsRes.ok ? await issueRepsRes.json() : [];
+          const cr = cmtRepsRes.ok ? await cmtRepsRes.json() : [];
+          document.getElementById("statReports").textContent = (ir.length || 0) + (cr.length || 0);
+        } catch (e) { document.getElementById("statReports").textContent = "—"; }
 
-    // Recent issues — FIX: use correct column count (no "Comments" col in overview)
-    const recent = allIssues.slice(0, 8);
-    let html = `<table><thead><tr><th>ID</th><th>Title</th><th>Category</th><th>Status</th><th>Upvotes</th><th>Actions</th></tr></thead><tbody>`;
-    for (const i of recent) html += buildIssueRow(i, false);
-    html += `</tbody></table>`;
-    document.getElementById("recentIssues").innerHTML = html;
-  } catch(e) {
-    document.getElementById("recentIssues").innerHTML = backendError();
-  }
-}
+        // Recent issues — FIX: use correct column count (no "Comments" col in overview)
+        const recent = allIssues.slice(0, 8);
+        let html = `<table><thead><tr><th>ID</th><th>Title</th><th>Category</th><th>Status</th><th>Upvotes</th><th>Actions</th></tr></thead><tbody>`;
+        for (const i of recent) html += buildIssueRow(i, false);
+        html += `</tbody></table>`;
+        document.getElementById("recentIssues").innerHTML = html;
+      } catch (e) {
+        document.getElementById("recentIssues").innerHTML = backendError();
+      }
+    }
 
-// FIX: showComments param controls both header AND data — consistent
-function buildIssueRow(i, showComments) {
-  const statusMap   = { open:"badge-open", in_progress:"badge-progress", resolved:"badge-resolved" };
-  const statusLabel = { open:"Open", in_progress:"In Progress", resolved:"Resolved" };
-  const cls = statusMap[i.status] || "badge-open";
-  const lbl = statusLabel[i.status] || i.status;
-  return `<tr id="issue-row-${i.id}">
+    // FIX: showComments param controls both header AND data — consistent
+    function buildIssueRow(i, showComments) {
+      const statusMap = { open: "badge-open", in_progress: "badge-progress", resolved: "badge-resolved" };
+      const statusLabel = { open: "Open", in_progress: "In Progress", resolved: "Resolved" };
+      const cls = statusMap[i.status] || "badge-open";
+      const lbl = statusLabel[i.status] || i.status;
+      return `<tr id="issue-row-${i.id}">
     <td>#${i.id}</td>
     <td><b>${escHtml(i.title)}</b></td>
     <td><span class="badge badge-cat">${escHtml(i.category)}</span></td>
@@ -294,91 +547,92 @@ function buildIssueRow(i, showComments) {
       </button>
     </td>
   </tr>`;
-}
-
-// ── DELETE (used by Recent Issues actions on this page) ──────────────────────
-function confirmDelete(type, id, title, msg) {
-  document.getElementById("modalTitle").textContent = title;
-  document.getElementById("modalMsg").textContent   = msg;
-  document.getElementById("confirmModal").classList.add("open");
-  document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
-}
-
-function closeModal() {
-  document.getElementById("confirmModal").classList.remove("open");
-}
-
-// FIX: Remove row from DOM immediately after delete — no full reload needed
-async function executeDelete(type, id) {
-  closeModal();
-  const endpointMap = {
-    issue:   `/admin/delete-issue/${id}`,
-    comment: `/admin/delete-comment/${id}`,
-    user:    `/admin/delete-user/${id}`
-  };
-  const endpoint = endpointMap[type];
-  if (!endpoint) return;
-
-  try {
-    const res  = await fetch(`${API}${endpoint}`, { method:"DELETE", headers: authHeader() });
-    const data = await res.json();
-
-    if (res.ok) {
-      showToast(data.message || "Deleted successfully", "success");
-
-      // FIX: Remove the specific row from DOM immediately
-      const rowId = `${type}-row-${id}`;
-      const row   = document.getElementById(rowId);
-      if (row) row.remove();
-
-      // Also update in-memory arrays
-      if (type === "issue") {
-        allIssues = allIssues.filter(i => i.id !== id);
-      }
-
-      // Update stat counts
-      document.getElementById("statIssues").textContent   = allIssues.length;
-      document.getElementById("statResolved").textContent = allIssues.filter(i => i.status === "resolved").length;
-
-    } else {
-      showToast(data.detail || "Delete failed.", "error");
     }
-  } catch(e) {
-    showToast("Network error. Check backend.", "error");
-  }
-}
 
-// ── HELPERS ──────────────────────────────────────────────────────────────────
-function authHeader() {
-  return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
-}
+    // ── DELETE (used by Recent Issues actions on this page) ──────────────────────
+    function confirmDelete(type, id, title, msg) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalMsg").textContent = msg;
+      document.getElementById("confirmModal").classList.add("open");
+      document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
+    }
 
-function escHtml(str) {
-  return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
+    function closeModal() {
+      document.getElementById("confirmModal").classList.remove("open");
+    }
 
-function formatDate(str) {
-  if (!str) return "—";
-  try { return new Date(str).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }); }
-  catch(e) { return str; }
-}
+    // FIX: Remove row from DOM immediately after delete — no full reload needed
+    async function executeDelete(type, id) {
+      closeModal();
+      const endpointMap = {
+        issue: `/admin/delete-issue/${id}`,
+        comment: `/admin/delete-comment/${id}`,
+        user: `/admin/delete-user/${id}`
+      };
+      const endpoint = endpointMap[type];
+      if (!endpoint) return;
 
-function emptyState(msg) {
-  return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
-}
+      try {
+        const res = await fetch(`${API}${endpoint}`, { method: "DELETE", headers: authHeader() });
+        const data = await res.json();
 
-function backendError() {
-  return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
-}
+        if (res.ok) {
+          showToast(data.message || "Deleted successfully", "success");
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
-loadOverview();
+          // FIX: Remove the specific row from DOM immediately
+          const rowId = `${type}-row-${id}`;
+          const row = document.getElementById(rowId);
+          if (row) row.remove();
 
-// FIX: Close modal on background click
-document.getElementById("confirmModal").addEventListener("click", function(e) {
-  if (e.target === this) closeModal();
-});
+          // Also update in-memory arrays
+          if (type === "issue") {
+            allIssues = allIssues.filter(i => i.id !== id);
+          }
 
-</script>
+          // Update stat counts
+          document.getElementById("statIssues").textContent = allIssues.length;
+          document.getElementById("statResolved").textContent = allIssues.filter(i => i.status === "resolved").length;
+
+        } else {
+          showToast(data.detail || "Delete failed.", "error");
+        }
+      } catch (e) {
+        showToast("Network error. Check backend.", "error");
+      }
+    }
+
+    // ── HELPERS ──────────────────────────────────────────────────────────────────
+    function authHeader() {
+      return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
+    }
+
+    function escHtml(str) {
+      return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function formatDate(str) {
+      if (!str) return "—";
+      try { return new Date(str).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); }
+      catch (e) { return str; }
+    }
+
+    function emptyState(msg) {
+      return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
+    }
+
+    function backendError() {
+      return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
+    }
+
+    // ── INIT ─────────────────────────────────────────────────────────────────────
+    loadOverview();
+
+    // FIX: Close modal on background click
+    document.getElementById("confirmModal").addEventListener("click", function (e) {
+      if (e.target === this) closeModal();
+    });
+
+  </script>
 </body>
+
 </html>

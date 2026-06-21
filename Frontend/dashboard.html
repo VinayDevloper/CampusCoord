@@ -1201,7 +1201,7 @@
             }
             async function loadVerificationBanner() {
                 const token = localStorage.getItem("token")
-                const response = await fetch("http://127.0.0.1:8000/pending-verification", {
+                const response = await fetch("https://campuscoord.onrender.com/pending-verification", {
                     headers: { Authorization: `Bearer ${token}` }
                 })
                 const data = await response.json()
@@ -1292,7 +1292,7 @@
 
                     const pendingResponse =
                         await fetch(
-                            "http://127.0.0.1:8000/pending-verification",
+                            "https://campuscoord.onrender.com/pending-verification",
                             {
                                 headers: {
                                     Authorization: `Bearer ${token}`
@@ -1305,7 +1305,7 @@
 
                     const response =
                         await fetch(
-                            `http://127.0.0.1:8000/issues?sort=${sortSelect.value}`
+                            `https://campuscoord.onrender.com/issues?sort=${sortSelect.value}`
                         )
 
                     const allIssues =
@@ -1326,7 +1326,7 @@
 
                     const response =
                         await fetch(
-                            `http://127.0.0.1:8000/issues?sort=${sortSelect.value}`
+                            `https://campuscoord.onrender.com/issues?sort=${sortSelect.value}`
                         )
 
                     data =
@@ -1474,7 +1474,7 @@
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:8000/trending-categories"
+                        "https://campuscoord.onrender.com/trending-categories"
                     )
 
                 const data =
@@ -1531,7 +1531,7 @@
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:8000/top-contributors"
+                        "https://campuscoord.onrender.com/top-contributors"
                     )
 
                 const data =
@@ -1813,7 +1813,7 @@
 
                 const response =
                     await fetch(
-                        "http://127.0.0.1:8000/vote",
+                        "https://campuscoord.onrender.com/vote",
                         {
                             method: "POST",
 
@@ -1921,7 +1921,7 @@
                 const token = localStorage.getItem("token")
                 if (!token) return
                 try {
-                    const res = await fetch("http://127.0.0.1:8000/me", {
+                    const res = await fetch("https://campuscoord.onrender.com/me", {
                         headers: { "Authorization": `Bearer ${token}` }
                     })
                     if (res.ok) {

@@ -1,209 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusCoord Admin — Manage Comments</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:#f5f5f5;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusCoord Admin — Manage Comments</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.container{display:flex;}
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
 
-.sidebar{
-  position:fixed;left:0;top:0;width:260px;height:100vh;
-  padding:20px;background:#e9ecef;display:flex;flex-direction:column;
-}
-.logo{color:#0d6efd;margin-bottom:6px;font-size:20px;}
-.admin-tag{
-  font-size:11px;font-weight:700;letter-spacing:1px;color:#92400e;
-  background:#fef3c7;padding:3px 10px;border-radius:20px;
-  display:inline-block;margin-bottom:28px;
-}
-.menu-item{
-  padding:11px 14px;margin-bottom:8px;border-radius:8px;cursor:pointer;
-  font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;
-  transition:background 0.15s,transform 0.15s;
-  text-decoration:none;color:inherit;
-}
-.issue-cell{
-    max-width: 280px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width:400px;
-}
-.menu-item:hover{background:#dbeafe;transform:translateX(3px);}
-.menu-item.active{background:#dbeafe;color:#0d6efd;font-weight:700;}
-.menu-icon{font-size:16px;}
-.logout-section{margin-top:auto;border-top:1px solid #d1d5db;padding-top:16px;}
-.logout{background:#fee2e2;color:#dc2626;border:1px solid #fecaca;text-align:center;font-weight:600;}
-.logout:hover{background:#fecaca;}
+    .container {
+      display: flex;
+    }
 
-.main-content{margin-left:280px;padding:36px;min-height:100vh;}
-.page-title{font-size:28px;font-weight:700;margin-bottom:6px;}
-.subtitle{color:#6b7280;margin-bottom:28px;font-size:15px;}
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 100vh;
+      padding: 20px;
+      background: #e9ecef;
+      display: flex;
+      flex-direction: column;
+    }
 
-.table-card{
-  background:white;border-radius:12px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;margin-bottom:24px;
-}
-table{width:100%;border-collapse:collapse;}
-th{
-  background:#f9fafb;padding:12px 18px;text-align:left;
-  font-size:13px;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;
-}
-td{padding:14px 18px;border-bottom:1px solid #f3f4f6;font-size:14px;vertical-align:middle;}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:#f9fafb;}
+    .logo {
+      color: #0d6efd;
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
 
-.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block;}
-.badge-cat{background:#dbeafe;color:#2563eb;}
+    .admin-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 28px;
+    }
 
-.btn{padding:7px 14px;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:opacity 0.15s;}
-.btn:hover{opacity:0.8;}
-.btn-danger{background:#fee2e2;color:#dc2626;}
-.btn-primary{background:#dbeafe;color:#1d4ed8;}
-.btn-sm{padding:5px 10px;font-size:12px;}
+    .menu-item {
+      padding: 11px 14px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s, transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
 
-.search-bar{
-  padding:10px 14px;border:1px solid #d1d5db;border-radius:8px;
-  font-size:14px;outline:none;width:300px;margin-bottom:16px;transition:border-color 0.2s;
-}
-.search-bar:focus{border-color:#2563eb;}
+    .issue-cell {
+      max-width: 280px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 400px;
+    }
 
-.modal-bg{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
-  z-index:1000;justify-content:center;align-items:center;
-}
-.modal-bg.open{display:flex;}
-.modal{background:white;border-radius:14px;padding:32px;width:440px;box-shadow:0 8px 40px rgba(0,0,0,0.18);}
-.modal h3{font-size:19px;font-weight:700;margin-bottom:10px;}
-.modal p{color:#6b7280;font-size:14px;margin-bottom:22px;}
-.modal-actions{display:flex;gap:12px;justify-content:flex-end;}
+    .menu-item:hover {
+      background: #dbeafe;
+      transform: translateX(3px);
+    }
 
-.empty-state{text-align:center;padding:48px 20px;color:#9ca3af;font-size:15px;}
-.empty-icon{font-size:40px;margin-bottom:12px;}
-.loading{text-align:center;padding:30px;color:#6b7280;}
+    .menu-item.active {
+      background: #dbeafe;
+      color: #0d6efd;
+      font-weight: 700;
+    }
 
-/* Toast */
-.toast{
-  position:fixed;bottom:28px;right:28px;z-index:2000;
-  background:#1e293b;color:white;padding:12px 20px;border-radius:10px;
-  font-size:14px;font-weight:500;opacity:0;pointer-events:none;
-  transition:opacity 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.2);
-}
-.toast.show{opacity:1;}
-.toast.success{border-left:4px solid #22c55e;}
-.toast.error{border-left:4px solid #ef4444;}
-</style>
+    .menu-icon {
+      font-size: 16px;
+    }
+
+    .logout-section {
+      margin-top: auto;
+      border-top: 1px solid #d1d5db;
+      padding-top: 16px;
+    }
+
+    .logout {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .logout:hover {
+      background: #fecaca;
+    }
+
+    .main-content {
+      margin-left: 280px;
+      padding: 36px;
+      min-height: 100vh;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #f9fafb;
+      padding: 12px 18px;
+      text-align: left;
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 600;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #f9fafb;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-cat {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .btn {
+      padding: 7px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .btn-primary {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .search-bar {
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      width: 300px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar:focus {
+      border-color: #2563eb;
+    }
+
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 14px;
+      padding: 32px;
+      width: 440px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .modal p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: #9ca3af;
+      font-size: 15px;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 2000;
+      background: #1e293b;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid #22c55e;
+    }
+
+    .toast.error {
+      border-left: 4px solid #ef4444;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="adminApp">
-<div class="container">
-  <div class="sidebar">
-    <h2 class="logo">CampusCoord</h2>
-    <span class="admin-tag">⚙ ADMIN</span>
-    <a class="menu-item" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
-    <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
-    <a class="menu-item active" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
-    <a class="menu-item" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
-    <a class="menu-item" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
-    <div class="logout-section">
-      <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
-    </div>
-  </div>
+  <div id="adminApp">
+    <div class="container">
+      <div class="sidebar">
+        <h2 class="logo">CampusCoord</h2>
+        <span class="admin-tag">⚙ ADMIN</span>
+        <a class="menu-item" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
+        <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
+        <a class="menu-item active" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
+        <a class="menu-item" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
+        <a class="menu-item" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
+        <div class="logout-section">
+          <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
+        </div>
+      </div>
 
-  <div class="main-content">
+      <div class="main-content">
 
-    <!-- COMMENTS -->
-    <div class="section active" id="section-comments">
-      <h1 class="page-title">Manage Comments</h1>
-      <p class="subtitle">Review and delete inappropriate comments</p>
-      <input class="search-bar" id="commentSearch" placeholder="🔍  Search by author, comment text...">
-      <div class="table-card">
-        <div id="commentsTable"><div class="loading">Loading...</div></div>
+        <!-- COMMENTS -->
+        <div class="section active" id="section-comments">
+          <h1 class="page-title">Manage Comments</h1>
+          <p class="subtitle">Review and delete inappropriate comments</p>
+          <input class="search-bar" id="commentSearch" placeholder="🔍  Search by author, comment text...">
+          <div class="table-card">
+            <div id="commentsTable">
+              <div class="loading">Loading...</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-
   </div>
-</div>
-</div>
 
-<!-- CONFIRM MODAL -->
-<div class="modal-bg" id="confirmModal">
-  <div class="modal">
-    <h3 id="modalTitle">Confirm Action</h3>
-    <p id="modalMsg">Are you sure?</p>
-    <div class="modal-actions">
-      <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+  <!-- CONFIRM MODAL -->
+  <div class="modal-bg" id="confirmModal">
+    <div class="modal">
+      <h3 id="modalTitle">Confirm Action</h3>
+      <p id="modalMsg">Are you sure?</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
-<script>
-const API = "http://127.0.0.1:8000";
+  <script>
+    const API = "https://campuscoord.onrender.com";
 
-// ── AUTH GUARD ───────────────────────────────────────────────────────────────
-let adminToken = sessionStorage.getItem("adminToken");
-if (!adminToken) {
-  window.location.href = "admin-login.html";
-}
+    // ── AUTH GUARD ───────────────────────────────────────────────────────────────
+    let adminToken = sessionStorage.getItem("adminToken");
+    if (!adminToken) {
+      window.location.href = "admin-login.html";
+    }
 
-let allComments = [];
+    let allComments = [];
 
-// ── TOAST ────────────────────────────────────────────────────────────────────
-function showToast(msg, type="success") {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.className = `toast show ${type}`;
-  setTimeout(() => { t.className = "toast"; }, 3000);
-}
+    // ── TOAST ────────────────────────────────────────────────────────────────────
+    function showToast(msg, type = "success") {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = `toast show ${type}`;
+      setTimeout(() => { t.className = "toast"; }, 3000);
+    }
 
-// ── LOGOUT ───────────────────────────────────────────────────────────────────
-document.getElementById("adminLogoutBtn").addEventListener("click", () => {
-  sessionStorage.removeItem("adminToken");
-  window.location.href = "admin-login.html";
-});
+    // ── LOGOUT ───────────────────────────────────────────────────────────────────
+    document.getElementById("adminLogoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("adminToken");
+      window.location.href = "admin-login.html";
+    });
 
-// ── COMMENTS ────────────────────────────────────────────────────────────────
-async function loadComments() {
-  document.getElementById("commentsTable").innerHTML = `<div class="loading">Loading comments...</div>`;
-  try {
-    const issuesRes = await fetch(`${API}/issues`);
-    const issues    = await issuesRes.json();
-    // FIX: Fetch ALL issues' comments, not just first 30
-    const promises  = issues.map(i =>
-      fetch(`${API}/comments/${i.id}`)
-        .then(r => r.json())
-        .then(cs => Array.isArray(cs) ? cs.map(c => ({...c, issue_id: i.id, issue_title: i.title})) : [])
-        .catch(() => [])
-    );
-    const results = await Promise.all(promises);
-    allComments   = results.flat();
-    renderCommentsTable(allComments);
-  } catch(e) {
-    document.getElementById("commentsTable").innerHTML = backendError();
-  }
-}
+    // ── COMMENTS ────────────────────────────────────────────────────────────────
+    async function loadComments() {
+      document.getElementById("commentsTable").innerHTML = `<div class="loading">Loading comments...</div>`;
+      try {
+        const issuesRes = await fetch(`${API}/issues`);
+        const issues = await issuesRes.json();
+        // FIX: Fetch ALL issues' comments, not just first 30
+        const promises = issues.map(i =>
+          fetch(`${API}/comments/${i.id}`)
+            .then(r => r.json())
+            .then(cs => Array.isArray(cs) ? cs.map(c => ({ ...c, issue_id: i.id, issue_title: i.title })) : [])
+            .catch(() => [])
+        );
+        const results = await Promise.all(promises);
+        allComments = results.flat();
+        renderCommentsTable(allComments);
+      } catch (e) {
+        document.getElementById("commentsTable").innerHTML = backendError();
+      }
+    }
 
-function renderCommentsTable(comments) {
-  if (!comments.length) { document.getElementById("commentsTable").innerHTML = emptyState("No comments found"); return; }
-  let html = `<table><thead><tr><th>ID</th><th style="width:350px;">Issue</th><th>Author</th><th>Comment</th><th>Date</th><th>Actions</th></tr></thead><tbody>`;
-  for (const c of comments) {
-    html += `<tr id="comment-row-${c.id}">
+    function renderCommentsTable(comments) {
+      if (!comments.length) { document.getElementById("commentsTable").innerHTML = emptyState("No comments found"); return; }
+      let html = `<table><thead><tr><th>ID</th><th style="width:350px;">Issue</th><th>Author</th><th>Comment</th><th>Date</th><th>Actions</th></tr></thead><tbody>`;
+      for (const c of comments) {
+        html += `<tr id="comment-row-${c.id}">
       <td>#${c.id}</td>
       <td class="issue-cell">
     <span class="badge badge-cat">#${c.issue_id}</span>
     ${escHtml(c.issue_title || "")}
 </td>
-      <td>${escHtml(c.name||"")}</td>
-      <td>${escHtml((c.comment||"").substring(0,90))}${(c.comment||"").length > 90 ? "…" : ""}</td>
+      <td>${escHtml(c.name || "")}</td>
+      <td>${escHtml((c.comment || "").substring(0, 90))}${(c.comment || "").length > 90 ? "…" : ""}</td>
       <td style="color:#6b7280;font-size:13px;">${formatDate(c.created_at)}</td>
       <td>
         <button class="btn btn-danger btn-sm"
@@ -212,98 +426,99 @@ function renderCommentsTable(comments) {
         </button>
       </td>
     </tr>`;
-  }
-  html += `</tbody></table>`;
-  document.getElementById("commentsTable").innerHTML = html;
-}
-
-document.getElementById("commentSearch").addEventListener("input", function() {
-  const q = this.value.toLowerCase();
-  renderCommentsTable(allComments.filter(c =>
-    (c.comment||"").toLowerCase().includes(q) ||
-    (c.name||"").toLowerCase().includes(q) ||
-    String(c.issue_id).includes(q)
-  ));
-});
-
-// ── DELETE ───────────────────────────────────────────────────────────────────
-function confirmDelete(type, id, title, msg) {
-  document.getElementById("modalTitle").textContent = title;
-  document.getElementById("modalMsg").textContent   = msg;
-  document.getElementById("confirmModal").classList.add("open");
-  document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
-}
-
-function closeModal() {
-  document.getElementById("confirmModal").classList.remove("open");
-}
-
-// FIX: Remove row from DOM immediately after delete — no full reload needed
-async function executeDelete(type, id) {
-  closeModal();
-  const endpointMap = {
-    issue:   `/admin/delete-issue/${id}`,
-    comment: `/admin/delete-comment/${id}`,
-    user:    `/admin/delete-user/${id}`
-  };
-  const endpoint = endpointMap[type];
-  if (!endpoint) return;
-
-  try {
-    const res  = await fetch(`${API}${endpoint}`, { method:"DELETE", headers: authHeader() });
-    const data = await res.json();
-
-    if (res.ok) {
-      showToast(data.message || "Deleted successfully", "success");
-
-      // FIX: Remove the specific row from DOM immediately
-      const rowId = `${type}-row-${id}`;
-      const row   = document.getElementById(rowId);
-      if (row) row.remove();
-
-      // Also update in-memory arrays
-      if (type === "comment") {
-        allComments = allComments.filter(c => c.id !== id);
       }
-
-    } else {
-      showToast(data.detail || "Delete failed.", "error");
+      html += `</tbody></table>`;
+      document.getElementById("commentsTable").innerHTML = html;
     }
-  } catch(e) {
-    showToast("Network error. Check backend.", "error");
-  }
-}
 
-// ── HELPERS ──────────────────────────────────────────────────────────────────
-function authHeader() {
-  return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
-}
+    document.getElementById("commentSearch").addEventListener("input", function () {
+      const q = this.value.toLowerCase();
+      renderCommentsTable(allComments.filter(c =>
+        (c.comment || "").toLowerCase().includes(q) ||
+        (c.name || "").toLowerCase().includes(q) ||
+        String(c.issue_id).includes(q)
+      ));
+    });
 
-function escHtml(str) {
-  return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
+    // ── DELETE ───────────────────────────────────────────────────────────────────
+    function confirmDelete(type, id, title, msg) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalMsg").textContent = msg;
+      document.getElementById("confirmModal").classList.add("open");
+      document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
+    }
 
-function formatDate(str) {
-  if (!str) return "—";
-  try { return new Date(str).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" }); }
-  catch(e) { return str; }
-}
+    function closeModal() {
+      document.getElementById("confirmModal").classList.remove("open");
+    }
 
-function emptyState(msg) {
-  return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
-}
+    // FIX: Remove row from DOM immediately after delete — no full reload needed
+    async function executeDelete(type, id) {
+      closeModal();
+      const endpointMap = {
+        issue: `/admin/delete-issue/${id}`,
+        comment: `/admin/delete-comment/${id}`,
+        user: `/admin/delete-user/${id}`
+      };
+      const endpoint = endpointMap[type];
+      if (!endpoint) return;
 
-function backendError() {
-  return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
-}
+      try {
+        const res = await fetch(`${API}${endpoint}`, { method: "DELETE", headers: authHeader() });
+        const data = await res.json();
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
-loadComments();
+        if (res.ok) {
+          showToast(data.message || "Deleted successfully", "success");
 
-// FIX: Close modal on background click
-document.getElementById("confirmModal").addEventListener("click", function(e) {
-  if (e.target === this) closeModal();
-});
-</script>
+          // FIX: Remove the specific row from DOM immediately
+          const rowId = `${type}-row-${id}`;
+          const row = document.getElementById(rowId);
+          if (row) row.remove();
+
+          // Also update in-memory arrays
+          if (type === "comment") {
+            allComments = allComments.filter(c => c.id !== id);
+          }
+
+        } else {
+          showToast(data.detail || "Delete failed.", "error");
+        }
+      } catch (e) {
+        showToast("Network error. Check backend.", "error");
+      }
+    }
+
+    // ── HELPERS ──────────────────────────────────────────────────────────────────
+    function authHeader() {
+      return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
+    }
+
+    function escHtml(str) {
+      return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function formatDate(str) {
+      if (!str) return "—";
+      try { return new Date(str).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); }
+      catch (e) { return str; }
+    }
+
+    function emptyState(msg) {
+      return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
+    }
+
+    function backendError() {
+      return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
+    }
+
+    // ── INIT ─────────────────────────────────────────────────────────────────────
+    loadComments();
+
+    // FIX: Close modal on background click
+    document.getElementById("confirmModal").addEventListener("click", function (e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
 </body>
+
 </html>

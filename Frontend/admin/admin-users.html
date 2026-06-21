@@ -1,221 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusCoord Admin — Manage Users</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:Arial,sans-serif;background:#f5f5f5;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusCoord Admin — Manage Users</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-.container{display:flex;}
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
 
-.sidebar{
-  position:fixed;left:0;top:0;width:260px;height:100vh;
-  padding:20px;background:#e9ecef;display:flex;flex-direction:column;
-}
-.logo{color:#0d6efd;margin-bottom:6px;font-size:20px;}
-.admin-tag{
-  font-size:11px;font-weight:700;letter-spacing:1px;color:#92400e;
-  background:#fef3c7;padding:3px 10px;border-radius:20px;
-  display:inline-block;margin-bottom:28px;
-}
-.menu-item{
-  padding:11px 14px;margin-bottom:8px;border-radius:8px;cursor:pointer;
-  font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;
-  transition:background 0.15s,transform 0.15s;
-  text-decoration:none;color:inherit;
-}
-.menu-item:hover{background:#dbeafe;transform:translateX(3px);}
-.menu-item.active{background:#dbeafe;color:#0d6efd;font-weight:700;}
-.menu-icon{font-size:16px;}
-.logout-section{margin-top:auto;border-top:1px solid #d1d5db;padding-top:16px;}
-.logout{background:#fee2e2;color:#dc2626;border:1px solid #fecaca;text-align:center;font-weight:600;}
-.logout:hover{background:#fecaca;}
+    .container {
+      display: flex;
+    }
 
-.main-content{
-    margin-left:280px;
-    width:calc(100vw - 280px);
-    min-height:100vh;
-    padding:36px;
-}
-.section{
-    width:100%;
-}
-.page-title{font-size:28px;font-weight:700;margin-bottom:6px;}
-.subtitle{color:#6b7280;margin-bottom:28px;font-size:15px;}
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 260px;
+      height: 100vh;
+      padding: 20px;
+      background: #e9ecef;
+      display: flex;
+      flex-direction: column;
+    }
 
-.table-card{
-  background:white;
-  border-radius:12px;
-  box-shadow:0 2px 10px rgba(0,0,0,0.07);
-  overflow:hidden;
-  margin-bottom:24px;
-  width:100%;
-}
-table{width:100%;border-collapse:collapse;}
-th{
-  background:#f9fafb;padding:12px 18px;text-align:left;
-  font-size:13px;color:#6b7280;font-weight:600;border-bottom:1px solid #e5e7eb;
-}
-td{padding:14px 18px;border-bottom:1px solid #f3f4f6;font-size:14px;vertical-align:middle;}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:#f9fafb;}
+    .logo {
+      color: #0d6efd;
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
 
-.badge{padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;display:inline-block;}
-.badge-banned{background:#fee2e2;color:#dc2626;}
-.badge-active{background:#dcfce7;color:#166534;}
+    .admin-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #92400e;
+      background: #fef3c7;
+      padding: 3px 10px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 28px;
+    }
 
-.btn{padding:7px 14px;border:none;border-radius:6px;cursor:pointer;font-size:13px;font-weight:600;transition:opacity 0.15s;}
-.btn:hover{opacity:0.8;}
-.btn-danger{background:#fee2e2;color:#dc2626;}
-.btn-warn{background:#fef3c7;color:#b45309;}
-.btn-primary{background:#dbeafe;color:#1d4ed8;}
-.btn-success{background:#dcfce7;color:#166534;}
-.btn-sm{padding:5px 10px;font-size:12px;}
-.btn-actions{
-    display:flex;
-    gap:10px;
-    align-items:center;
-    flex-wrap:nowrap;
-}
+    .menu-item {
+      padding: 11px 14px;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: background 0.15s, transform 0.15s;
+      text-decoration: none;
+      color: inherit;
+    }
 
-.search-bar{
-  padding:10px 14px;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  font-size:14px;
-  outline:none;
-  width:450px;
-  margin-bottom:16px;
-  transition:border-color 0.2s;
-}
-.search-bar:focus{border-color:#2563eb;}
+    .menu-item:hover {
+      background: #dbeafe;
+      transform: translateX(3px);
+    }
 
-.modal-bg{
-  display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);
-  z-index:1000;justify-content:center;align-items:center;
-}
-.modal-bg.open{display:flex;}
-.modal{background:white;border-radius:14px;padding:32px;width:440px;box-shadow:0 8px 40px rgba(0,0,0,0.18);}
-.modal h3{font-size:19px;font-weight:700;margin-bottom:10px;}
-.modal p{color:#6b7280;font-size:14px;margin-bottom:22px;}
-.modal-actions{display:flex;gap:12px;justify-content:flex-end;}
+    .menu-item.active {
+      background: #dbeafe;
+      color: #0d6efd;
+      font-weight: 700;
+    }
 
-.empty-state{text-align:center;padding:48px 20px;color:#9ca3af;font-size:15px;}
-.empty-icon{font-size:40px;margin-bottom:12px;}
-.loading{text-align:center;padding:30px;color:#6b7280;}
+    .menu-icon {
+      font-size: 16px;
+    }
 
-/* Toast */
-.toast{
-  position:fixed;bottom:28px;right:28px;z-index:2000;
-  background:#1e293b;color:white;padding:12px 20px;border-radius:10px;
-  font-size:14px;font-weight:500;opacity:0;pointer-events:none;
-  transition:opacity 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.2);
-}
-.toast.show{opacity:1;}
-.toast.success{border-left:4px solid #22c55e;}
-.toast.error{border-left:4px solid #ef4444;}
-</style>
+    .logout-section {
+      margin-top: auto;
+      border-top: 1px solid #d1d5db;
+      padding-top: 16px;
+    }
+
+    .logout {
+      background: #fee2e2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .logout:hover {
+      background: #fecaca;
+    }
+
+    .main-content {
+      margin-left: 280px;
+      width: calc(100vw - 280px);
+      min-height: 100vh;
+      padding: 36px;
+    }
+
+    .section {
+      width: 100%;
+    }
+
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 28px;
+      font-size: 15px;
+    }
+
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+      overflow: hidden;
+      margin-bottom: 24px;
+      width: 100%;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      background: #f9fafb;
+      padding: 12px 18px;
+      text-align: left;
+      font-size: 13px;
+      color: #6b7280;
+      font-weight: 600;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    td {
+      padding: 14px 18px;
+      border-bottom: 1px solid #f3f4f6;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: #f9fafb;
+    }
+
+    .badge {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .badge-banned {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .badge-active {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .btn {
+      padding: 7px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .btn-danger {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .btn-warn {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .btn-primary {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .btn-success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+
+    .btn-actions {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .search-bar {
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      width: 450px;
+      margin-bottom: 16px;
+      transition: border-color 0.2s;
+    }
+
+    .search-bar:focus {
+      border-color: #2563eb;
+    }
+
+    .modal-bg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-bg.open {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border-radius: 14px;
+      padding: 32px;
+      width: 440px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.18);
+    }
+
+    .modal h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .modal p {
+      color: #6b7280;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 48px 20px;
+      color: #9ca3af;
+      font-size: 15px;
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 2000;
+      background: #1e293b;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid #22c55e;
+    }
+
+    .toast.error {
+      border-left: 4px solid #ef4444;
+    }
+  </style>
 </head>
+
 <body>
 
-<div id="adminApp">
-<div class="container">
-  <div class="sidebar">
-    <h2 class="logo">CampusCoord</h2>
-    <span class="admin-tag">⚙ ADMIN</span>
-    <a class="menu-item" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
-    <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
-    <a class="menu-item" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
-    <a class="menu-item active" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
-    <a class="menu-item" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
-    <div class="logout-section">
-      <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
-    </div>
-  </div>
+  <div id="adminApp">
+    <div class="container">
+      <div class="sidebar">
+        <h2 class="logo">CampusCoord</h2>
+        <span class="admin-tag">⚙ ADMIN</span>
+        <a class="menu-item" href="admin_dashboard.html"><span class="menu-icon"></span> Overview</a>
+        <a class="menu-item" href="admin-issues.html"><span class="menu-icon"></span> Manage Issues</a>
+        <a class="menu-item" href="admin-comments.html"><span class="menu-icon"></span> Manage Comments</a>
+        <a class="menu-item active" href="admin-users.html"><span class="menu-icon"></span> Manage Users</a>
+        <a class="menu-item" href="admin-reports.html"><span class="menu-icon"></span> Reported Content</a>
+        <div class="logout-section">
+          <div class="menu-item logout" id="adminLogoutBtn">Logout</div>
+        </div>
+      </div>
 
-  <div class="main-content">
+      <div class="main-content">
 
-    <!-- USERS -->
-    <div class="section active" id="section-users">
-      <h1 class="page-title">Manage Users</h1>
-      <p class="subtitle">View all registered users and manage accounts</p>
-      <input class="search-bar" id="userSearch" placeholder="🔍  Search by name or email...">
-      <div class="table-card">
-        <div id="usersTable"><div class="loading">Loading...</div></div>
+        <!-- USERS -->
+        <div class="section active" id="section-users">
+          <h1 class="page-title">Manage Users</h1>
+          <p class="subtitle">View all registered users and manage accounts</p>
+          <input class="search-bar" id="userSearch" placeholder="🔍  Search by name or email...">
+          <div class="table-card">
+            <div id="usersTable">
+              <div class="loading">Loading...</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
-
   </div>
-</div>
-</div>
 
-<!-- CONFIRM MODAL -->
-<div class="modal-bg" id="confirmModal">
-  <div class="modal">
-    <h3 id="modalTitle">Confirm Action</h3>
-    <p id="modalMsg">Are you sure?</p>
-    <div class="modal-actions">
-      <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+  <!-- CONFIRM MODAL -->
+  <div class="modal-bg" id="confirmModal">
+    <div class="modal">
+      <h3 id="modalTitle">Confirm Action</h3>
+      <p id="modalMsg">Are you sure?</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="closeModal()">Cancel</button>
+        <button class="btn btn-danger" id="modalConfirmBtn">Confirm</button>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+  <!-- TOAST -->
+  <div class="toast" id="toast"></div>
 
-<script>
-const API = "http://127.0.0.1:8000";
+  <script>
+    const API = "https://campuscoord.onrender.com";
 
-// ── AUTH GUARD ───────────────────────────────────────────────────────────────
-let adminToken = sessionStorage.getItem("adminToken");
-if (!adminToken) {
-  window.location.href = "admin-login.html";
-}
+    // ── AUTH GUARD ───────────────────────────────────────────────────────────────
+    let adminToken = sessionStorage.getItem("adminToken");
+    if (!adminToken) {
+      window.location.href = "admin-login.html";
+    }
 
-let allUsers = [];
+    let allUsers = [];
 
-// ── TOAST ────────────────────────────────────────────────────────────────────
-function showToast(msg, type="success") {
-  const t = document.getElementById("toast");
-  t.textContent = msg;
-  t.className = `toast show ${type}`;
-  setTimeout(() => { t.className = "toast"; }, 3000);
-}
+    // ── TOAST ────────────────────────────────────────────────────────────────────
+    function showToast(msg, type = "success") {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.className = `toast show ${type}`;
+      setTimeout(() => { t.className = "toast"; }, 3000);
+    }
 
-// ── LOGOUT ───────────────────────────────────────────────────────────────────
-document.getElementById("adminLogoutBtn").addEventListener("click", () => {
-  sessionStorage.removeItem("adminToken");
-  window.location.href = "admin-login.html";
-});
+    // ── LOGOUT ───────────────────────────────────────────────────────────────────
+    document.getElementById("adminLogoutBtn").addEventListener("click", () => {
+      sessionStorage.removeItem("adminToken");
+      window.location.href = "admin-login.html";
+    });
 
-// ── USERS ───────────────────────────────────────────────────────────────────
-async function loadUsers() {
-  document.getElementById("usersTable").innerHTML = `<div class="loading">Loading users...</div>`;
-  try {
-    const res = await fetch(`${API}/`, { headers: authHeader() });
-    allUsers  = await res.json();
-    if (!Array.isArray(allUsers)) throw new Error("Not an array");
-    renderUsersTable(allUsers);
-  } catch(e) {
-    document.getElementById("usersTable").innerHTML = backendError();
-  }
-}
+    // ── USERS ───────────────────────────────────────────────────────────────────
+    async function loadUsers() {
+      document.getElementById("usersTable").innerHTML = `<div class="loading">Loading users...</div>`;
+      try {
+        const res = await fetch(`${API}/`, { headers: authHeader() });
+        allUsers = await res.json();
+        if (!Array.isArray(allUsers)) throw new Error("Not an array");
+        renderUsersTable(allUsers);
+      } catch (e) {
+        document.getElementById("usersTable").innerHTML = backendError();
+      }
+    }
 
-function renderUsersTable(users) {
-  if (!users.length) { document.getElementById("usersTable").innerHTML = emptyState("No users found"); return; }
-  let html = `<table><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead><tbody>`;
-  for (const u of users) {
-    const banned = !!u.banned;
-    html += `<tr id="user-row-${u.id}">
+    function renderUsersTable(users) {
+      if (!users.length) { document.getElementById("usersTable").innerHTML = emptyState("No users found"); return; }
+      let html = `<table><thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Status</th><th>Actions</th></tr></thead><tbody>`;
+      for (const u of users) {
+        const banned = !!u.banned;
+        html += `<tr id="user-row-${u.id}">
       <td>#${u.id}</td>
       <td><b>${escHtml(u.name)}</b></td>
       <td style="width:320px;">
     ${escHtml(u.email)}
 </td>
-      <td><span class="badge ${banned ? 'badge-banned':'badge-active'}">${banned ? 'Banned':'Active'}</span></td>
+      <td><span class="badge ${banned ? 'badge-banned' : 'badge-active'}">${banned ? 'Banned' : 'Active'}</span></td>
       <td>
         <div class="btn-actions">
           ${banned
@@ -229,123 +443,124 @@ function renderUsersTable(users) {
         </div>
       </td>
     </tr>`;
-  }
-  html += `</tbody></table>`;
-  document.getElementById("usersTable").innerHTML = html;
-}
-
-document.getElementById("userSearch").addEventListener("input", function() {
-  const q = this.value.toLowerCase();
-  renderUsersTable(allUsers.filter(u =>
-    u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
-  ));
-});
-
-// ── ACTIONS ──────────────────────────────────────────────────────────────────
-function confirmDelete(type, id, title, msg) {
-  document.getElementById("modalTitle").textContent = title;
-  document.getElementById("modalMsg").textContent   = msg;
-  document.getElementById("confirmModal").classList.add("open");
-  document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
-}
-
-function confirmBan(userId, name) {
-  document.getElementById("modalTitle").textContent = `Ban ${name}?`;
-  document.getElementById("modalMsg").textContent   = "User will be blocked from logging in.";
-  document.getElementById("confirmModal").classList.add("open");
-  document.getElementById("modalConfirmBtn").onclick = () => executeBan(userId, false);
-}
-
-function confirmUnban(userId, name) {
-  document.getElementById("modalTitle").textContent = `Unban ${name}?`;
-  document.getElementById("modalMsg").textContent   = "User will be able to log in again.";
-  document.getElementById("confirmModal").classList.add("open");
-  document.getElementById("modalConfirmBtn").onclick = () => executeBan(userId, true);
-}
-
-function closeModal() {
-  document.getElementById("confirmModal").classList.remove("open");
-}
-
-// FIX: Remove row from DOM immediately after delete — no full reload needed
-async function executeDelete(type, id) {
-  closeModal();
-  const endpointMap = {
-    issue:   `/admin/delete-issue/${id}`,
-    comment: `/admin/delete-comment/${id}`,
-    user:    `/admin/delete-user/${id}`
-  };
-  const endpoint = endpointMap[type];
-  if (!endpoint) return;
-
-  try {
-    const res  = await fetch(`${API}${endpoint}`, { method:"DELETE", headers: authHeader() });
-    const data = await res.json();
-
-    if (res.ok) {
-      showToast(data.message || "Deleted successfully", "success");
-
-      // FIX: Remove the specific row from DOM immediately
-      const rowId = `${type}-row-${id}`;
-      const row   = document.getElementById(rowId);
-      if (row) row.remove();
-
-      // Also update in-memory arrays
-      if (type === "user") {
-        allUsers = allUsers.filter(u => u.id !== id);
       }
-
-    } else {
-      showToast(data.detail || "Delete failed.", "error");
+      html += `</tbody></table>`;
+      document.getElementById("usersTable").innerHTML = html;
     }
-  } catch(e) {
-    showToast("Network error. Check backend.", "error");
-  }
-}
 
-async function executeBan(userId, unban) {
-  closeModal();
-  const url    = unban ? `${API}/admin/unban-user/${userId}` : `${API}/admin/ban-user/${userId}`;
-  try {
-    const res  = await fetch(url, { method:"POST", headers: authHeader() });
-    const data = await res.json();
-    if (res.ok) {
-      showToast(data.message || (unban ? "User unbanned" : "User banned"), "success");
-      // FIX: Update banned status in allUsers and re-render without full fetch
-      const u = allUsers.find(u => u.id === userId);
-      if (u) { u.banned = !unban; renderUsersTable(allUsers); }
-    } else {
-      showToast(data.detail || "Action failed.", "error");
+    document.getElementById("userSearch").addEventListener("input", function () {
+      const q = this.value.toLowerCase();
+      renderUsersTable(allUsers.filter(u =>
+        u.name.toLowerCase().includes(q) || u.email.toLowerCase().includes(q)
+      ));
+    });
+
+    // ── ACTIONS ──────────────────────────────────────────────────────────────────
+    function confirmDelete(type, id, title, msg) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalMsg").textContent = msg;
+      document.getElementById("confirmModal").classList.add("open");
+      document.getElementById("modalConfirmBtn").onclick = () => executeDelete(type, id);
     }
-  } catch(e) {
-    showToast("Network error. Check backend.", "error");
-  }
-}
 
-// ── HELPERS ──────────────────────────────────────────────────────────────────
-function authHeader() {
-  return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
-}
+    function confirmBan(userId, name) {
+      document.getElementById("modalTitle").textContent = `Ban ${name}?`;
+      document.getElementById("modalMsg").textContent = "User will be blocked from logging in.";
+      document.getElementById("confirmModal").classList.add("open");
+      document.getElementById("modalConfirmBtn").onclick = () => executeBan(userId, false);
+    }
 
-function escHtml(str) {
-  return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-}
+    function confirmUnban(userId, name) {
+      document.getElementById("modalTitle").textContent = `Unban ${name}?`;
+      document.getElementById("modalMsg").textContent = "User will be able to log in again.";
+      document.getElementById("confirmModal").classList.add("open");
+      document.getElementById("modalConfirmBtn").onclick = () => executeBan(userId, true);
+    }
 
-function emptyState(msg) {
-  return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
-}
+    function closeModal() {
+      document.getElementById("confirmModal").classList.remove("open");
+    }
 
-function backendError() {
-  return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
-}
+    // FIX: Remove row from DOM immediately after delete — no full reload needed
+    async function executeDelete(type, id) {
+      closeModal();
+      const endpointMap = {
+        issue: `/admin/delete-issue/${id}`,
+        comment: `/admin/delete-comment/${id}`,
+        user: `/admin/delete-user/${id}`
+      };
+      const endpoint = endpointMap[type];
+      if (!endpoint) return;
 
-// ── INIT ─────────────────────────────────────────────────────────────────────
-loadUsers();
+      try {
+        const res = await fetch(`${API}${endpoint}`, { method: "DELETE", headers: authHeader() });
+        const data = await res.json();
 
-// FIX: Close modal on background click
-document.getElementById("confirmModal").addEventListener("click", function(e) {
-  if (e.target === this) closeModal();
-});
-</script>
+        if (res.ok) {
+          showToast(data.message || "Deleted successfully", "success");
+
+          // FIX: Remove the specific row from DOM immediately
+          const rowId = `${type}-row-${id}`;
+          const row = document.getElementById(rowId);
+          if (row) row.remove();
+
+          // Also update in-memory arrays
+          if (type === "user") {
+            allUsers = allUsers.filter(u => u.id !== id);
+          }
+
+        } else {
+          showToast(data.detail || "Delete failed.", "error");
+        }
+      } catch (e) {
+        showToast("Network error. Check backend.", "error");
+      }
+    }
+
+    async function executeBan(userId, unban) {
+      closeModal();
+      const url = unban ? `${API}/admin/unban-user/${userId}` : `${API}/admin/ban-user/${userId}`;
+      try {
+        const res = await fetch(url, { method: "POST", headers: authHeader() });
+        const data = await res.json();
+        if (res.ok) {
+          showToast(data.message || (unban ? "User unbanned" : "User banned"), "success");
+          // FIX: Update banned status in allUsers and re-render without full fetch
+          const u = allUsers.find(u => u.id === userId);
+          if (u) { u.banned = !unban; renderUsersTable(allUsers); }
+        } else {
+          showToast(data.detail || "Action failed.", "error");
+        }
+      } catch (e) {
+        showToast("Network error. Check backend.", "error");
+      }
+    }
+
+    // ── HELPERS ──────────────────────────────────────────────────────────────────
+    function authHeader() {
+      return { "Authorization": `Bearer ${adminToken}`, "Content-Type": "application/json" };
+    }
+
+    function escHtml(str) {
+      return String(str || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+
+    function emptyState(msg) {
+      return `<div class="empty-state"><div class="empty-icon">📭</div>${msg}</div>`;
+    }
+
+    function backendError() {
+      return `<div class="empty-state"><div class="empty-icon">⚠️</div>Could not fetch data. Make sure FastAPI is running on port 8000.</div>`;
+    }
+
+    // ── INIT ─────────────────────────────────────────────────────────────────────
+    loadUsers();
+
+    // FIX: Close modal on background click
+    document.getElementById("confirmModal").addEventListener("click", function (e) {
+      if (e.target === this) closeModal();
+    });
+  </script>
 </body>
+
 </html>
