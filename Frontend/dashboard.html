@@ -200,9 +200,9 @@
         }
 
         .custom-dropdown-trigger span {
-            display: inline-block;
-            height: 42px;
-            line-height: 42px;
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -225,9 +225,9 @@
         }
 
         .custom-dropdown-option span {
-            display: block;
-            height: 38px;
-            line-height: 38px;
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -244,6 +244,134 @@
             background: #eff6ff;
             color: #2563eb;
             font-weight: 600;
+        }
+
+        /* --- Skeleton Shimmer Animation --- */
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+
+        .skeleton-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .skeleton-block {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 6px;
+        }
+
+        .skeleton-badge-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .skeleton-badge {
+            width: 80px;
+            height: 22px;
+        }
+
+        .skeleton-status {
+            width: 90px;
+            height: 22px;
+        }
+
+        .skeleton-title {
+            width: 75%;
+            height: 28px;
+            margin-top: 16px;
+        }
+
+        .skeleton-desc {
+            width: 100%;
+            height: 18px;
+            margin-top: 14px;
+        }
+
+        .skeleton-desc-short {
+            width: 45%;
+            height: 18px;
+            margin-top: 8px;
+        }
+
+        .skeleton-meta {
+            display: flex;
+            gap: 16px;
+            margin-top: 18px;
+        }
+
+        .skeleton-meta-item {
+            width: 100px;
+            height: 16px;
+        }
+
+        /* --- Error & Offline State Styles --- */
+        .error-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            text-align: center;
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .error-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+
+        .error-state h3 {
+            margin: 0 0 8px 0;
+            color: #1f2937;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .error-state p {
+            margin: 0 0 20px 0;
+            color: #6b7280;
+            font-size: 14px;
+            max-width: 320px;
+        }
+
+        .btn-retry {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-retry:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-retry:active {
+            transform: scale(0.98);
         }
 
         .category-badge {
@@ -1284,14 +1412,42 @@
 
 
             async function getIssues() {
+                // Show loading skeleton cards
+                issuesContainer.innerHTML = `
+                    <div class="skeleton-card">
+                        <div class="skeleton-badge-container">
+                            <div class="skeleton-block skeleton-badge"></div>
+                            <div class="skeleton-block skeleton-status"></div>
+                        </div>
+                        <div class="skeleton-block skeleton-title"></div>
+                        <div class="skeleton-block skeleton-desc"></div>
+                        <div class="skeleton-block skeleton-desc-short"></div>
+                        <div class="skeleton-meta">
+                            <div class="skeleton-block skeleton-meta-item"></div>
+                            <div class="skeleton-block skeleton-meta-item"></div>
+                        </div>
+                    </div>
+                    <div class="skeleton-card">
+                        <div class="skeleton-badge-container">
+                            <div class="skeleton-block skeleton-badge"></div>
+                            <div class="skeleton-block skeleton-status"></div>
+                        </div>
+                        <div class="skeleton-block skeleton-title"></div>
+                        <div class="skeleton-block skeleton-desc"></div>
+                        <div class="skeleton-block skeleton-desc-short"></div>
+                        <div class="skeleton-meta">
+                            <div class="skeleton-block skeleton-meta-item"></div>
+                            <div class="skeleton-block skeleton-meta-item"></div>
+                        </div>
+                    </div>
+                `;
+
                 let data
+                try {
+                    if (showVerificationOnly) {
+                        const token = localStorage.getItem("token")
 
-                if (showVerificationOnly) {
-
-                    const token = localStorage.getItem("token")
-
-                    const pendingResponse =
-                        await fetch(
+                        const pendingResponse = await fetch(
                             "https://campuscoord.onrender.com/pending-verification",
                             {
                                 headers: {
@@ -1300,39 +1456,44 @@
                             }
                         )
 
-                    const pendingData =
-                        await pendingResponse.json()
+                        if (!pendingResponse.ok) throw new Error("Failed to load pending verifications");
+                        const pendingData = await pendingResponse.json()
 
-                    const response =
-                        await fetch(
+                        const response = await fetch(
                             `https://campuscoord.onrender.com/issues?sort=${sortSelect.value}`
                         )
 
-                    const allIssues =
-                        await response.json()
+                        if (!response.ok) throw new Error("Failed to load issues");
+                        const allIssues = await response.json()
 
-                    const pendingIds =
-                        pendingData.map(
-                            item => item.id
-                        )
+                        const pendingIds = pendingData.map(item => item.id)
 
-                    data =
-                        allIssues.filter(
-                            issue => pendingIds.includes(issue.id)
-                        )
-
-                }
-                else {
-
-                    const response =
-                        await fetch(
+                        data = allIssues.filter(issue => pendingIds.includes(issue.id))
+                    }
+                    else {
+                        const response = await fetch(
                             `https://campuscoord.onrender.com/issues?sort=${sortSelect.value}`
                         )
 
-                    data =
-                        await response.json()
-
+                        if (!response.ok) throw new Error("Failed to load issues");
+                        data = await response.json()
+                    }
                 }
+                catch (error) {
+                    console.error("Error fetching issues:", error);
+                    issuesContainer.innerHTML = `
+                        <div class="error-state">
+                            <div class="error-icon">${!navigator.onLine ? '📶' : '⚠️'}</div>
+                            <h3>${!navigator.onLine ? 'Internet Disconnected' : 'Failed to Load Issues'}</h3>
+                            <p>${!navigator.onLine ? 'Please check your internet connection and try again.' : 'Unable to connect to the server. Please check your network or try again.'}</p>
+                            <button class="btn-retry" onclick="getIssues()">
+                                🔄 Try Again
+                            </button>
+                        </div>
+                    `;
+                    return;
+                }
+
                 issuesContainer.innerHTML = ""
                 let foundIssue = false
 
