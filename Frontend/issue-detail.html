@@ -1249,16 +1249,36 @@
         })
 
         function getTimeAgo(dateString) {
+            if (!dateString) return "Just now";
+            
+            // Normalize space to T and make sure it has 'Z' at the end to treat it as UTC
+            let normalized = dateString.replace(' ', 'T');
+            const hasOffset = normalized.endsWith('Z') || normalized.includes('+', 10) || normalized.substring(10).includes('-');
+            if (!hasOffset) {
+                normalized += 'Z';
+            }
+            
             const now = new Date()
-            const created = new Date(dateString)
-            const seconds = Math.floor((now - created) / 1000)
+            let created = new Date(normalized)
+            
+            // If parsing fails (Invalid Date), fallback to original string parsing
+            if (isNaN(created.getTime())) {
+                created = new Date(dateString);
+            }
+            
+            if (isNaN(created.getTime())) return "Just now";
+            
+            let seconds = Math.floor((now - created) / 1000)
+            if (seconds < 0) seconds = 0; // Prevent negative offset due to minor client-server drift
+            
             const minutes = Math.floor(seconds / 60)
             const hours = Math.floor(minutes / 60)
             const days = Math.floor(hours / 24)
             const months = Math.floor(days / 30)
-            if (months > 0) return months + " month ago"
-            if (days > 0) return days + " day ago"
-            if (hours > 0) return hours + " hour ago"
+            
+            if (months > 0) return months + (months === 1 ? " month ago" : " months ago")
+            if (days > 0) return days + (days === 1 ? " day ago" : " days ago")
+            if (hours > 0) return hours + (hours === 1 ? " hour ago" : " hours ago")
             if (minutes > 0) return minutes + " min ago"
             return "Just now"
         }
