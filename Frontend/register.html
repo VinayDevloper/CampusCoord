@@ -204,6 +204,15 @@
                     }
                 )
 
+                if (!response.ok) {
+                    if (response.status === 500) {
+                        alert("Server Error (500): The database server has exceeded its free compute quota or is currently unavailable. Please check your hosting dashboard or try again later.");
+                        return;
+                    }
+                    alert(`Server returned status ${response.status}. Please check and try again.`);
+                    return;
+                }
+
                 const data = await response.json()
                 console.log(data)
 
