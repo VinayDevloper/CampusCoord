@@ -1109,6 +1109,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
 
         const params = new URLSearchParams(window.location.search)
@@ -1117,7 +1118,7 @@
         console.log(issueId)
 
         async function getIssueDetail() {
-            const response = await fetch(`https://campuscoord.onrender.com/issues/${issueId}`)
+            const response = await fetch(`${API_BASE}/issues/${issueId}`)
             const data = await response.json()
             console.log(data)
 
@@ -1128,7 +1129,7 @@
                     issueImage.src = data.image_url
                 }
                 else {
-                    issueImage.src = `https://campuscoord.onrender.com/${data.image_url}`
+                    issueImage.src = `${API_BASE}/${data.image_url}`
                 }
 
                 issueImage.style.display = "block"
@@ -1207,7 +1208,7 @@
 
         upvoteBtn.addEventListener("click", async function () {
             const token = localStorage.getItem("token")
-            const response = await fetch("https://campuscoord.onrender.com/vote", {
+            const response = await fetch(`${API_BASE}/vote`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ issue_id: Number(issueId) })
@@ -1220,7 +1221,7 @@
 
         claimBtn.addEventListener("click", async function () {
             const token = localStorage.getItem("token")
-            const response = await fetch("https://campuscoord.onrender.com/claim", {
+            const response = await fetch(`${API_BASE}/claim`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ issue_id: Number(issueId) })
@@ -1236,7 +1237,7 @@
         commentBtn.addEventListener("click", async function () {
             if (commentInput.value.trim() === "") { alert("Comment cannot be empty"); return }
             const token = localStorage.getItem("token")
-            const response = await fetch("https://campuscoord.onrender.com/comments", {
+            const response = await fetch(`${API_BASE}/comments`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ issue_id: Number(issueId), comment: commentInput.value })
@@ -1284,7 +1285,7 @@
         }
 
         async function getComments() {
-            const response = await fetch(`https://campuscoord.onrender.com/comments/${issueId}`)
+            const response = await fetch(`${API_BASE}/comments/${issueId}`)
             const data = await response.json()
             commentsContainer.innerHTML = ""
             for (let comment of data) {
@@ -1310,7 +1311,7 @@
         }
 
         async function getClaimInfo() {
-            const response = await fetch(`https://campuscoord.onrender.com/claims/${issueId}`)
+            const response = await fetch(`${API_BASE}/claims/${issueId}`)
             const data = await response.json()
             console.log(data)
             if (data.claimed_by) {
@@ -1342,7 +1343,7 @@
                     }
                     else {
                         proofImage.src =
-                            `https://campuscoord.onrender.com/${data.proof_image_url}?t=${Date.now()}`
+                            `${API_BASE}/${data.proof_image_url}?t=${Date.now()}`
                     }
 
                     proofImage.style.display = "block"
@@ -1366,7 +1367,7 @@
         }
 
         async function getVerificationSummary() {
-            const response = await fetch(`https://campuscoord.onrender.com/verification/${issueId}`)
+            const response = await fetch(`${API_BASE}/verification/${issueId}`)
             const data = await response.json()
             const totalVotes = data.solved + data.partial + data["not solved"]
             document.getElementById("totalVotesNum").innerText = totalVotes
@@ -1410,7 +1411,7 @@
 
         async function verifyIssue(status) {
             const token = localStorage.getItem("token")
-            const response = await fetch("https://campuscoord.onrender.com/verify", {
+            const response = await fetch(`${API_BASE}/verify`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
                 body: JSON.stringify({ issue_id: Number(issueId), status: status })
@@ -1443,7 +1444,7 @@
             formData.append("file", file)
 
             const response = await fetch(
-                `https://campuscoord.onrender.com/upload-proof?issue_id=${issueId}`,
+                `${API_BASE}/upload-proof?issue_id=${issueId}`,
                 {
                     method: "POST",
                     headers: {
@@ -1465,7 +1466,7 @@
             const token = localStorage.getItem("token")
 
             const response = await fetch(
-                `https://campuscoord.onrender.com/delete-proof/${issueId}`,
+                `${API_BASE}/delete-proof/${issueId}`,
                 {
                     method: "DELETE",
                     headers: {
@@ -1498,7 +1499,7 @@
 
                 const response =
                     await fetch(
-                        `https://campuscoord.onrender.com/issues/${issueId}`,
+                        `${API_BASE}/issues/${issueId}`,
                         {
                             method: "DELETE",
 
@@ -1527,7 +1528,7 @@
             const token = localStorage.getItem("token")
             if (!token) return
             try {
-                const res = await fetch("https://campuscoord.onrender.com/me", {
+                const res = await fetch(`${API_BASE}/me`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 })
                 if (res.ok) {
@@ -1785,7 +1786,7 @@
             const sel = document.querySelector('input[name="reportReason"]:checked');
             if (!sel) { alert('Please select a reason.'); return; }
             const token = localStorage.getItem('token');
-            const url = _rType === 'issue' ? 'https://campuscoord.onrender.com/report-issue' : 'https://campuscoord.onrender.com/report-comment';
+            const url = _rType === 'issue' ? `${API_BASE}/report-issue` : `${API_BASE}/report-comment`;
             const body = _rType === 'issue'
                 ? { issue_id: _rTargetId, reason: sel.value }
                 : { comment_id: _rTargetId, reason: sel.value };

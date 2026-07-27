@@ -8,12 +8,12 @@ from fastapi.staticfiles import StaticFiles
 from backend.routes.auth_routes import router as auth_router
 
 # Create avatar_url column in users table if it doesn't exist
-try:
-    with engine.connect() as conn:
-        conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(500)"))
-        conn.commit()
-except Exception as e:
-    print(f"Migration error: {e}")
+# try:
+    # with engine.connect() as conn:
+#     #     conn.execute(text("ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url VARCHAR(500)"))
+#     #     conn.commit()
+# except Exception as e:
+#     print(f"Migration error: {e}")
 
 app = FastAPI()
 app.include_router(auth_router)

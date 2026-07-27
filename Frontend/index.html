@@ -204,6 +204,7 @@
     </div>
 
 
+    <script src="config.js"></script>
     <script>
 
         const loginButton = document.getElementById("loginBtn")
@@ -225,7 +226,7 @@
 
 
             const response = await fetch(
-                "https://campuscoord.onrender.com/login",
+                `${API_BASE}/login`,
                 {
                     method: "POST",
 

@@ -1041,6 +1041,7 @@
         </div>
     </div>
 
+    <script src="config.js"></script>
     <script>
         const token = localStorage.getItem("token")
         if (!token) { window.location.href = "login.html" }
@@ -1084,7 +1085,7 @@
             let data;
             try {
                 const response = await fetch(
-                    `https://campuscoord.onrender.com/resolved-issues?sort=${sortSelect.value}`
+                    `${API_BASE}/resolved-issues?sort=${sortSelect.value}`
                 )
                 if (!response.ok) throw new Error("Failed to load resolved issues");
                 data = await response.json()
@@ -1189,7 +1190,7 @@
 
         /* ── Top Contributors ── */
         async function getTopContributors() {
-            const response = await fetch("https://campuscoord.onrender.com/top-contributors")
+            const response = await fetch(`${API_BASE}/top-contributors`)
             const data = await response.json()
             const box = document.getElementById("contributorsBox")
 
@@ -1249,7 +1250,7 @@
 
         async function voteIssue(issueId) {
             const token = localStorage.getItem("token")
-            const response = await fetch("https://campuscoord.onrender.com/vote", {
+            const response = await fetch(`${API_BASE}/vote`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -1357,7 +1358,7 @@
             const token = localStorage.getItem("token")
             if (!token) return
             try {
-                const res = await fetch("https://campuscoord.onrender.com/me", {
+                const res = await fetch(`${API_BASE}/me`, {
                     headers: { "Authorization": `Bearer ${token}` }
                 })
                 if (res.ok) {

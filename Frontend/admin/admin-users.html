@@ -380,8 +380,9 @@
   <!-- TOAST -->
   <div class="toast" id="toast"></div>
 
+  <script src="../config.js"></script>
   <script>
-    const API = "https://campuscoord.onrender.com";
+    const API = API_BASE;
 
     // ── AUTH GUARD ───────────────────────────────────────────────────────────────
     let adminToken = sessionStorage.getItem("adminToken");
